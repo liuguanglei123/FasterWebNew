@@ -289,3 +289,27 @@ export const delAllReports = params => {
 export const watchSingleReports = url => {
     return axios.get('/api/fastrunner/reports/' + url + '/').then(res => res.data)
 };
+
+export const suiteList = params => {
+    return axios.get('/api/fastrunner/suite/', params).then(res => res.data)
+};
+
+export const addSuiteList = params => {
+    return axios.post('/api/fastrunner/suite/', params).then(res => res.data)
+};
+
+export const updateSuiteList = (url,params) => {
+    return axios.patch('/api/fastrunner/suite/' + url +'/', params).then(res => res.data)
+};
+
+export const getSuiteStep = params => {
+    return axios.get('/api/fastrunner/suitestep/',params).then(res => res.data)
+};
+
+export const updateSuiteStep = params => {
+    return axios.patch('/api/fastrunner/suitestep/', params).then(res => res.data)
+};
+
+export const runTestSuiteTree = params => {
+    return axios.post('/api/fastrunner/run_suitestep/', params).then(res => res.data)
+};

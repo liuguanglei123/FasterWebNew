@@ -50,6 +50,7 @@
                     {name: "项目概况", url: "ProjectDetail", code: "&#xe64a;"},
                     {name: "驱动代码", url: "DebugTalk", code: "&#xe7ca;"},
                     {name: "API 模板", url: "RecordApi", code: "&#xe74a;"},
+                    {name: "步骤集", url: "Suite", code: "&#xe74a;"},
                     {name: "测试用例", url: "AutoTest", code: "&#xe6da;"},
                     {name: "配置管理", url: "RecordConfig", code: "&#xee32;"},
                     {name: "全局变量", url: "GlobalEnv", code: "&#xe63c;"},

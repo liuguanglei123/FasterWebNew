@@ -13,10 +13,12 @@ import GlobalEnv from '@/pages/variables/GlobalEnv'
 import ReportList from '@/pages/reports/ReportList'
 import RecordConfig from '@/pages/fastrunner/config/RecordConfig'
 import Tasks from '@/pages/task/Tasks'
+import Suite from '@/pages/fastrunner/suite/Suite'
 
 Vue.use(Router)
 
 export default new Router({
+    mode: 'history',
     routes: [
         {
             path: '/fastrunner/register',
@@ -78,6 +80,16 @@ export default new Router({
                     meta: {
                         title: '接口模板',
                         requireAuth: true
+                    }
+
+                },
+                {
+                    name:'Suite',
+                    path:'suite/:id',
+                    component:Suite,
+                    meta:{
+                        title:'步骤集',
+                        requireAuth:true
                     }
 
                 },
