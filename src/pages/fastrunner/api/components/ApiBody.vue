@@ -76,7 +76,7 @@
                 :visible.sync="dialogTableVisible"
                 width="70%"
             >
-                <report :summary="summary"></report>
+                <new-debug-report :summary="summary"></new-debug-report>
             </el-dialog>
 
             <el-tabs
@@ -153,7 +153,7 @@
     import Validate from '../../../httprunner/components/Validate'
     import Variables from '../../../httprunner/components/Variables'
     import Hooks from '../../../httprunner/components/Hooks'
-    import Report from '../../../reports/DebugReport'
+    import newDebugReport from '../../../reports/newDebugReport'
 
     export default {
         components: {
@@ -163,7 +163,7 @@
             Validate,
             Variables,
             Hooks,
-            Report
+            newDebugReport
 
         },
 

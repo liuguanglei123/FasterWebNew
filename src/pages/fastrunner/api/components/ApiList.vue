@@ -34,7 +34,7 @@
                     :visible.sync="dialogTableVisible"
                     width="70%"
                 >
-                    <report :summary="summary"></report>
+                    <new-debug-report :summary="summary"></new-debug-report>
                 </el-dialog>
 
                 <el-dialog
@@ -217,11 +217,11 @@
 </template>
 
 <script>
-    import Report from '../../../reports/DebugReport'
+    import newDebugReport from '../../../reports/newDebugReport'
 
     export default {
         components: {
-            Report
+            newDebugReport
         },
         name: "ApiList",
         props: {
