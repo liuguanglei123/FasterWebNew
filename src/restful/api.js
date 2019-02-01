@@ -313,3 +313,27 @@ export const updateSuiteStep = params => {
 export const runTestSuiteTree = params => {
     return axios.post('/api/fastrunner/run_suitestep/', params).then(res => res.data)
 };
+
+export const testCaseList = params => {
+    return axios.get('/api/fastrunner/testCaseList/', params).then(res => res.data)
+};
+
+export const addtestCaseList = params => {
+    return axios.post('/api/fastrunner/testCaseList/', params).then(res => res.data)
+};
+
+export const updateTestCaseList = (url,params) => {
+    return axios.patch('/api/fastrunner/testCaseList/' + url +'/', params).then(res => res.data)
+};
+
+export const getTestCaseStep = params => {
+    return axios.get('/api/fastrunner/testCaseStep/',params).then(res => res.data)
+};
+
+export const updateTestCaseStep = params => {
+    return axios.patch('/api/fastrunner/testCaseStep/', params).then(res => res.data)
+};
+
+export const runTestCaseTree = params => {
+    return axios.post('/api/fastrunner/run_casestep/', params).then(res => res.data)
+};
