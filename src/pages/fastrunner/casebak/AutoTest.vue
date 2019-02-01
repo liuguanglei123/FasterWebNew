@@ -1,7 +1,7 @@
 <template>
 
     <el-container>
-        <el-header style="background: #fff; padding: 0; ">
+        <el-header style="background: #fff; padding: 0; height: 50px">
             <div class="nav-api-header">
                 <div style="padding-top: 10px; margin-left: 10px">
                     <el-button
@@ -11,11 +11,11 @@
                         @click="dialogVisible = true"
                         :disabled="!addTestActivate"
                     >
-                        新建步骤集
+                        新建分组
                     </el-button>
 
                     <el-dialog
-                        title="新建步骤集"
+                        title="新建分组"
                         :visible.sync="dialogVisible"
                         width="30%"
                         align="center"
@@ -33,7 +33,7 @@
 
                         <el-radio-group v-model="radio" size="small">
                             <el-radio-button label="根节点"></el-radio-button>
-                            <el-radio-button label="子节点，但不建议使用"></el-radio-button>
+                            <el-radio-button label="子节点，未测试，暂时不建议使用"></el-radio-button>
                         </el-radio-group>
 
                         <span slot="footer" class="dialog-footer">
@@ -41,95 +41,36 @@
                         <el-button type="primary" @click="handleConfirm('nodeForm')">确 定</el-button>
                       </span>
                     </el-dialog>
+
                     <el-button
                         type="danger"
                         size="small"
                         icon="el-icon-delete"
                         @click="deleteNode"
                         :disabled="buttonActivate"
-                    >删除步骤集
+                    >删除分组
                     </el-button>
+
                     <el-button
-                        type="warning"
+                        :disabled="currentNode === '' "
+                        type="info"
                         size="small"
-                        icon="el-icon-circle-plus-outline"
-                        @click="addstepdlgshow=true"
-                        :disabled="buttonActivate"
-                    >添加步骤
+                        icon="el-icon-edit-outline"
+                        @click="renameNode"
+                    >节点重命名
                     </el-button>
-                    <!--新建步骤集对话框-->
-                    <el-dialog
-                        title="添加步骤"
-                        :visible.sync="addstepdlgshow"
-                        width="90%"
-                        align="center"
-                        style="height:auto;"
-                        top="10vh"
-                    >
-                        <!--<el-tabs v-model="activetName" @tab-click="handleClick" type="border-card">-->
-                        <el-tabs v-model="activetName" type="border-card">
-                            <el-tab-pane label="API" name="API">
-                                <el-container>
-                                <el-aside
-                                    style="margin-top: 10px;width:20%;padding-right:40px"
-                                    v-show="addTestActivate"
-                                >
-                                    <div class="nav-api-side-dlg">
-                                        <div class="api-tree"  style="height:550px">
-                                            <el-input
-                                                placeholder="输入关键字进行过滤"
-                                                v-model="filterText"
-                                                size="medium"
-                                                clearable
-                                                prefix-icon="el-icon-search"
-                                            >
-                                            </el-input>
 
-                                            <el-tree
-                                                @node-click="handleAPINodeClick"
-                                                :data="APIdataTree"
-                                                node-key="id"
-                                                :default-expand-all="false"
-                                                :expand-on-click-node="false"
-                                                :draggable="false"
-                                                highlight-current
-                                                :filter-node-method="filterNode"
-                                                ref="tree1"
-                                                @node-drag-end="handleDragEnd"
-                                            >
-                                            <span class="custom-tree-node"
-                                                  slot-scope="{ node, data }"
-                                            >
-                                                <span><i class="iconfont" v-html="expand"></i>&nbsp;&nbsp;{{ node.label }}</span>
-                                            </span>
-                                            </el-tree>
-                                        </div>
-                                    </div>
-                                </el-aside>
-                                    <el-main>
-                                        <api-show-list
-                                            :checked="checked"
-                                            v-on:api="handleAPI"
-                                            :node="currentAPINode !== '' ? currentAPINode.id : '' "
-                                            :project="$route.params.id"
-                                            :testList="testListData.tests"
-                                            :maxindex="testListData.maxindex"
-                                            ref="apiShowList"
-                                            v-if="addstepdlgshow"
-                                        >
-                                        </api-show-list>
 
-                                    </el-main>
+                    <el-button
+                        type="primary"
+                        size="small"
+                        style="margin-left: 100px"
+                        icon="el-icon-circle-plus-outline"
+                        @click="buttonActivate=false"
+                        :disabled="buttonActivate"
+                    >添加用例集
+                    </el-button>
 
-                                </el-container>
-                            </el-tab-pane>
-                        </el-tabs>
-
-                        <span slot="footer" class="dialog-footer">
-                        <el-button @click="addstepdlgshow = false">取 消</el-button>
-                        <el-button type="primary" @click="saveSuite()">确 定</el-button>
-                      </span>
-                    </el-dialog>
                     <el-button
                         type="primary"
                         plain
@@ -147,6 +88,7 @@
                         :disabled="buttonActivate"
                     >导出用例
                     </el-button>
+
                     <el-button
                         style="margin-left: 20px"
                         type="primary"
@@ -170,7 +112,7 @@
                     <el-tooltip
                         class="item"
                         effect="dark"
-                        content="环境信息"
+                        content="可选配置"
                         placement="top-start"
                     >
                         <el-button plain size="small" icon="el-icon-view"></el-button>
@@ -182,12 +124,13 @@
                         size="small"
                         tyle="margin-left: -6px"
                         v-model="currentConfig"
+                        :disabled="addTestActivate"
                     >
                         <el-option
                             v-for="item in configOptions"
                             :key="item.id"
                             :label="item.name"
-                            :value="item.id">
+                            :value="item.name">
                         </el-option>
                     </el-select>
 
@@ -206,6 +149,7 @@
         <el-container>
             <el-aside
                 style="margin-top: 10px;"
+                v-show="addTestActivate"
             >
                 <div class="nav-api-side">
                     <div class="api-tree">
@@ -224,7 +168,7 @@
                             node-key="id"
                             :default-expand-all="false"
                             :expand-on-click-node="false"
-                            :draggable="false"
+                            draggable
                             highlight-current
                             :filter-node-method="filterNode"
                             ref="tree2"
@@ -244,51 +188,58 @@
             </el-aside>
 
             <el-main style="padding: 0;">
-                <suite-body
-                    v-show="!suiteEditFlag"
-                    :nodeId="currentNode.id"
+                <test-list
+                    v-show="addTestActivate"
                     :project="$route.params.id"
-                    :response="response"
-                >
-                </suite-body>
-                <suite-list
-                    v-show="suiteEditFlag"
-                    :project="$route.params.id"
-                    :node="currentNode.id"
+                    :node="currentNode !== '' ? currentNode.id : '' "
                     :del="del"
-                    :config="currentConfig"
                     v-on:testStep="handleTestStep"
                     :back="back"
                     :run="run"
-                    style="width:40%"
-                    @transferTestData="getTestData"
-                    ref="suiteList"
-                    v-on:suiteEdit="handleAPI"
                 >
-                </suite-list>
+                </test-list>
+
+                <edit-test
+                    :back="back"
+                    v-show="!addTestActivate"
+                    :project="$route.params.id"
+                    :node="currentNode.id"
+                    :testStepResp="testStepResp"
+                    :config="currentConfig"
+                    v-on:addSuccess="handleBackList"
+                >
+                </edit-test>
 
             </el-main>
         </el-container>
     </el-container>
+
 </template>
 
 <script>
-    import EditSuite from './components/EditSuite'
-    import SuiteBody from './components/SuiteBody'
-    import SuiteList from './components/SuiteList'
-    import ApiShowList from './components/ApiShowList'
+    import EditTest from './components/EditTest'
+    import TestList from './components/TestList'
 
     export default {
+        computed: {
+            buttonActivate: {
+                get: function () {
+                    return !this.addTestActivate || this.currentNode === '';
+                },
+                set: function (value) {
+                    this.addTestActivate = value;
+                    this.testStepResp = [];
+                }
+            }
+        },
         watch: {
             filterText(val) {
                 this.$refs.tree2.filter(val);
             }
         },
         components: {
-            EditSuite,
-            SuiteBody,
-            SuiteList,
-            ApiShowList,
+            EditTest,
+            TestList,
         },
         data() {
             return {
@@ -307,103 +258,27 @@
                 run: false,
                 radio: '根节点',
                 addTestActivate: true,
-                currentConfig: '',
+                currentConfig: '请选择',
                 treeId: '',
-                APItreeId: '',
                 maxId: '',
-                APImaxId: '',
                 dialogVisible: false,
                 currentNode: '',
                 data: '',
-                currentAPINode: '',
-                APIdata:'',
                 filterText: '',
                 expand: '&#xe65f;',
                 dataTree: [],
-                APIdataTree: [],
-                configOptions: [{
-                    value: '测试环境',
-                    label: '测试环境'
-                }],
-                addstepdlgshow: false,
-                activetName: 'API',
-                addAPIFlag: false,
-                checked: false,
-                del: false,
-                run: false,
-                back: false,
-                currentConfig: '',
-                testListData: {
-                    name: '',
-                    maxindex:0,
-                    tests: [],
-                    empty:true,
-                },
-                response:'',
-                suiteEditFlag:true
+                configOptions: []
             }
         },
-        computed: {
-            buttonActivate: {
-                get: function () {
-                    return !this.addTestActivate || this.currentNode === '';
-                },
-                set: function (value) {
-                    this.addTestActivate = value;
-                    this.testStepResp = [];
-                }
-            },
-            transferApi: {
-                get: function () {
-                    if(this.currentAPINode === ''){
-                        return [];
-                    }
-                    else{
-                        const result=[];
-                        this.$api.apiList({
-                            params: {
-                                node: this.currentAPINode.id,
-                                project: this.$route.params.id
-                            }
-                        }).then(resp => {
-                            var tmpresult =  resp['results'];
-                            for(var i = 0;i < tmpresult.length; i++ ) {
-                                result.push({
-                                    key: tmpresult[i].id,
-                                    label: tmpresult[i].name,
-                                    disabled: false
-                                });
-                            }
-                            console.log(result);
-                            return result;
-                        }).catch(resp => {
-                            this.$message.error({
-                                message: '服务器连接超时，请重试',
-                                duration: 1000
-                            })
-                        })
-                    }
-                },
-                set: function(value){
-                    this.transferApi = value;
-                }
-            },
-
-
-        },
         methods: {
-            handleDragEnd(){
+            handleDragEnd() {
                 this.updateTree(false);
             },
-
             getConfig() {
                 this.$api.getAllConfig(this.$route.params.id).then(resp => {
                     this.configOptions = resp;
-                    this.configOptions.push({"name": "请选择", id: ''})
-                }).catch(resp => {
-                    this.$message.error({
-                        message: '服务器连接超时，请重试',
-                        duration: 1000
+                    this.configOptions.push({
+                        name: '请选择'
                     })
                 })
             },
@@ -418,26 +293,10 @@
                 this.addTestActivate = false;
             },
             getTree() {
-                this.$api.getTree(this.$route.params.id, {params: {type: 3}}).then(resp => {
+                this.$api.getTree(this.$route.params.id, {params: {type: 2}}).then(resp => {
                     this.dataTree = resp['tree'];
                     this.treeId = resp['id'];
                     this.maxId = resp['max'];
-                }).catch(resp => {
-                    this.$message.error({
-                        message: '服务器连接超时，请重试',
-                        duration: 1000
-                    })
-                })
-
-                this.$api.getTree(this.$route.params.id, {params: {type: 1}}).then(resp => {
-                    this.APIdataTree = resp['tree'];
-                    this.APItreeId = resp['id'];
-                    this.APImaxId = resp['max'];
-                }).catch(resp => {
-                    this.$message.error({
-                        message: '服务器连接超时，请重试',
-                        duration: 1000
-                    })
                 })
             },
 
@@ -446,21 +305,29 @@
                     mode: mode,
                     body: this.dataTree,
                     node: this.currentNode.id,
-                    type: 3
+                    type: 2
                 }).then(resp => {
                     if (resp['success']) {
-                        this.$message.success(resp['msg']);
                         this.dataTree = resp['tree'];
                         this.maxId = resp['max'];
                     } else {
                         this.$message.error(resp['msg']);
                     }
-                }).catch(resp => {
-                    this.$message.error({
-                        message: '服务器连接超时，请重试',
-                        duration: 1000
-                    })
                 })
+            },
+            renameNode() {
+                this.$prompt('请输入节点名', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    inputPattern: /\S/,
+                    inputErrorMessage: '节点名称不能为空'
+                }).then(({value}) => {
+                    const parent = this.data.parent;
+                    const children = parent.data.children || parent.data;
+                    const index = children.findIndex(d => d.id === this.currentNode.id);
+                    children[index]["label"] = value
+                    this.updateTree(false);
+                });
             },
 
             deleteNode() {
@@ -496,11 +363,6 @@
             handleNodeClick(node, data) {
                 this.currentNode = node;
                 this.data = data;
-                this.suiteEditFlag = true;
-            },
-            handleAPINodeClick(node, data) {
-                this.currentAPINode = node;
-                this.APIdata = data;
             },
 
             filterNode(value, data) {
@@ -525,24 +387,10 @@
                     this.$set(data, 'children', []);
                 }
                 data.children.push(newChild);
-            },
-            //handleAPI(response) {
-            //    this.addAPIFlag = true;
-            //    this.response = response;
-            //},
-            getTestData(value){
-                this.testListData=value;
-            },
-            saveSuite(){
-                this.$refs.suiteList.testData.tests = this.$refs.apiShowList.selectedData;
-                this.addstepdlgshow = false
-            },
-            handleAPI(resp){
-                this.suiteEditFlag = false;
-                this.response = resp;
             }
+
         },
-        name: "Suites",
+        name: "AutoTest",
         mounted() {
             this.getTree();
             this.getConfig();
@@ -551,5 +399,6 @@
 </script>
 
 <style scoped>
+
 
 </style>
