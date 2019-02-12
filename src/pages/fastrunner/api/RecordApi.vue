@@ -360,7 +360,7 @@
             },
 
             deleteNode() {
-                this.$confirm('此操作将永久删除该节点下所有接口, 是否继续?', '提示', {
+                this.$confirm('节点删除操作还未完成，删除节点会导致节点下所有接口信息丢失，千万不要继续', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'

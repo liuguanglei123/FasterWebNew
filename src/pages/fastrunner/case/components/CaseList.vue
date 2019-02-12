@@ -42,7 +42,7 @@
                 </el-dialog>
 
                 <el-dialog
-                    title="Run Suite"
+                    title="Run TestCase"
                     :visible.sync="dialogTreeVisible"
                     width="45%"
                 >
@@ -334,7 +334,7 @@
                         duration: 1500
                     });
                 } else {
-                    this.$api.runTestSuiteTree({
+                    this.$api.runTestCaseTree({
                         "project": this.project,
                         "relation": relation,
                         "async": this.asyncs,
