@@ -397,10 +397,11 @@
                     }
                     this.selectedData.push(tmpdata);
                 }
+                this.resort(this.selectedData)
             },
             rmfromSuite() {
                 var data;
-                for(data in this.multiplerightSelection){
+                for(var data in this.multiplerightSelection){
                     this.selectedData.splice(this.multiplerightSelection[data].index-1,1);
                     this.resort(this.selectedData)
                 }

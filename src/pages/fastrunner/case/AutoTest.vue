@@ -33,7 +33,7 @@
 
                         <el-radio-group v-model="radio" size="small">
                             <el-radio-button label="根节点"></el-radio-button>
-                            <el-radio-button label="子节点，未测试，暂时不建议使用"></el-radio-button>
+                            <el-radio-button label="子节点"></el-radio-button>
                         </el-radio-group>
 
                         <span slot="footer" class="dialog-footer">

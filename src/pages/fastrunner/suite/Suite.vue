@@ -33,7 +33,7 @@
 
                         <el-radio-group v-model="radio" size="small">
                             <el-radio-button label="根节点"></el-radio-button>
-                            <el-radio-button label="子节点，但不建议使用"></el-radio-button>
+                            <el-radio-button label="子节点"></el-radio-button>
                         </el-radio-group>
 
                         <span slot="footer" class="dialog-footer">
@@ -49,6 +49,16 @@
                         :disabled="buttonActivate"
                     >删除步骤集
                     </el-button>
+
+                    <el-button
+                        :disabled="currentNode === '' "
+                        type="info"
+                        size="small"
+                        icon="el-icon-edit-outline"
+                        @click="renameNode"
+                    >节点重命名
+                    </el-button>
+
                     <el-button
                         type="warning"
                         size="small"
@@ -303,7 +313,6 @@
                     ]
                 },
                 back: false,
-                del: false,
                 run: false,
                 radio: '根节点',
                 addTestActivate: true,
@@ -464,7 +473,7 @@
             },
 
             deleteNode() {
-                this.$confirm('此操作将永久删除该节点下所有用例, 是否继续?', '提示', {
+                this.$confirm('节点删除操作还未完成，删除节点会导致节点下所有步骤集信息丢失，千万不要继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
@@ -481,6 +490,21 @@
                     }
 
                 })
+            },
+
+            renameNode() {
+                this.$prompt('请输入节点名', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    inputPattern: /\S/,
+                    inputErrorMessage: '节点名称不能为空'
+                }).then(({value}) => {
+                    const parent = this.data.parent;
+                    const children = parent.data.children || parent.data;
+                    const index = children.findIndex(d => d.id === this.currentNode.id);
+                    children[index]["label"] = value
+                    this.updateTree(false);
+                });
             },
 
             handleConfirm(formName) {

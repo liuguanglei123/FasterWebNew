@@ -314,6 +314,10 @@ export const runTestSuiteTree = params => {
     return axios.post('/api/fastrunner/run_suitestep/', params).then(res => res.data)
 };
 
+export const runsuitesinglestep = params => {
+    return axios.post('/api/fastrunner/run_suitesinglestep/', params).then(res => res.data)
+};
+
 export const testCaseList = params => {
     return axios.get('/api/fastrunner/testCaseList/', params).then(res => res.data)
 };
@@ -337,3 +341,5 @@ export const updateTestCaseStep = params => {
 export const runTestCaseTree = params => {
     return axios.post('/api/fastrunner/run_casestep/', params).then(res => res.data)
 };
+
+
