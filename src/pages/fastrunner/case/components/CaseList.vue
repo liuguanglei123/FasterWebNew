@@ -190,13 +190,13 @@
                                         type="primary"
                                         icon="el-icon-caret-right"
                                         circle size="mini"
-                                        @click="handleRunAPI(scope.row.id)"
+                                        @click="handleRunAPI(scope.row)"
                                     ></el-button>
                                     <el-button
                                         type="danger"
                                         icon="el-icon-delete"
                                         circle size="mini"
-                                        @click="handleDelApi(scope.row.id)"
+                                        @click="handleDelApi(scope.row)"
                                     >
                                     </el-button>
                                 </el-row>
@@ -217,7 +217,7 @@
 
     export default {
 
-        name: "SuiteList",
+        name: "CaseList",
         components: {
             newDebugReport
         },
@@ -259,19 +259,20 @@
 
             del() {
                 if (this.selectTest.length !== 0) {
-                    this.$confirm('此操作将永久删除测试用例集，是否继续?', '提示', {
+                    this.$confirm('此操作将永久删除测试用例集步骤，是否继续?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning',
                     }).then(() => {
-                        this.$api.delAllTest({data: this.selectTest}).then(resp => {
-                            this.getTestList();
-                        }).catch(resp => {
-                            this.$message.error({
-                                message: '服务器连接超时，请重试',
-                                duration: 1000
-                            })
-                        })
+                        for(var i=this.selectTest.length; i>0; i--){
+                            var data = this.selectTest.pop();
+                            for( var each in this.testData.tests){
+                                if(this.testData.tests[each].id === data.id && this.testData.tests[each].index === data.index){
+                                    this.testData.tests.splice(data.index-1,1);
+                                }
+                            }
+                        }
+                        this.resort(this.testData.tests)
                     })
                 } else {
                     this.$notify.warning({
@@ -532,6 +533,45 @@
                         duration: 1000
                     })
                 })
+            },
+            handleRunAPI(row) {
+                this.loading = true;
+                var relationArray = new Array(1);
+                relationArray[0] = this.node;
+                this.$api.runcasesinglestep({
+                    "id": row.id,
+                    "index":row.index,
+                    "relation":relationArray,
+                    "project":this.project
+                }).then(resp => {
+                    this.summary = resp;
+                    this.dialogTableVisible = true;
+                    this.loading = false;
+                }).catch(resp => {
+                    this.loading = false;
+                })
+            },
+            handleDelApi(row) {
+                this.$confirm('此操作会永久删除该步骤，是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                }).then(() => {
+                    for(var data in this.testData.tests){
+                        if ( this.testData.tests[data].id === row.id && this.testData.tests[data].index === row.index ){
+                            this.testData.tests.splice(row.index-1,1);
+                        }
+                    }
+                    this.resort(this.testData.tests)
+                })
+            },
+            resort(value){
+                var data;
+                var num = 0;
+                for(data in value){
+                    num = num+1;
+                    value[data].index = num;
+                }
             }
         }
     }

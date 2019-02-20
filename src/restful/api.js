@@ -342,4 +342,6 @@ export const runTestCaseTree = params => {
     return axios.post('/api/fastrunner/run_casestep/', params).then(res => res.data)
 };
 
-
+export const runcasesinglestep = params => {
+    return axios.post('/api/fastrunner/run_casesinglestep/', params).then(res => res.data)
+};

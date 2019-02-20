@@ -352,7 +352,7 @@
                 }],
             }
         },
-        name: "SuiteBody"
+        name: "CaseBody"
     }
 </script>
 

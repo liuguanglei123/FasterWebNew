@@ -114,7 +114,7 @@
                                             :project="$route.params.id"
                                             :testList="testListData.tests"
                                             :maxindex="testListData.maxindex"
-                                            ref="apiShowList"
+                                            ref="apiShowListCase"
                                             v-if="addstepdlgshow"
                                         >
                                         </api-show-list>
@@ -532,7 +532,7 @@
                 this.testListData=value;
             },
             saveCase(){
-                this.$refs.CaseList.testData.tests = this.$refs.apiShowList.selectedData;
+                this.$refs.CaseList.testData.tests = this.$refs.apiShowListCase.selectedData;
                 this.addstepdlgshow = false
             },
             handleAPI(resp){
@@ -540,7 +540,7 @@
                 this.response = resp;
             }
         },
-        name: "Suites",
+        name: "AutoTest",
         mounted() {
             this.getTree();
             this.getConfig();

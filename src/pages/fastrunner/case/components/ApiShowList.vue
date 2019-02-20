@@ -4,7 +4,7 @@
 
             <div style="position: static;">
                 <el-table
-                    ref="multipleTable1"
+                    ref="multipleTable2"
                     :data="apiData.results"
                     :show-header="false"
                     :cell-style="{paddingTop: '4px', paddingBottom: '4px'}"
