@@ -99,7 +99,7 @@
                             label="总计用例"
                         >
                             <template slot-scope="scope">
-                                <el-tag>{{ scope.row.stat.testsRun }}</el-tag>
+                                <el-tag>{{ scope.row.stat.teststeps.total }}</el-tag>
                             </template>
                         </el-table-column>
 
@@ -108,7 +108,7 @@
                             label="通过个数"
                         >
                             <template slot-scope="scope">
-                                <el-tag type="success">{{ scope.row.stat.successes }}</el-tag>
+                                <el-tag type="success">{{ scope.row.stat.teststeps.successes }}</el-tag>
                             </template>
                         </el-table-column>
 
@@ -117,7 +117,7 @@
                             label="失败个数"
                         >
                             <template slot-scope="scope">
-                                <el-tag type="danger">{{ scope.row.stat.failures }}</el-tag>
+                                <el-tag type="danger">{{ scope.row.stat.teststeps.failures }}</el-tag>
                             </template>
                         </el-table-column>
 
@@ -126,7 +126,7 @@
                             label="异常个数"
                         >
                             <template slot-scope="scope">
-                                <el-tag type="warning">{{ scope.row.stat.errors }}</el-tag>
+                                <el-tag type="warning">{{ scope.row.stat.teststeps.errors }}</el-tag>
                             </template>
                         </el-table-column>
 
@@ -135,7 +135,7 @@
                             label="跳过个数"
                         >
                             <template slot-scope="scope">
-                                <el-tag type="info">{{ scope.row.stat.skipped }}</el-tag>
+                                <el-tag type="info">{{ scope.row.stat.teststeps.skipped }}</el-tag>
                             </template>
                         </el-table-column>
 
