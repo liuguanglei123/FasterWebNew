@@ -123,6 +123,62 @@
 
                                 </el-container>
                             </el-tab-pane>
+                            <el-tab-pane label="SUITE" name="SUITE">
+                                <el-container>
+                                    <el-aside
+                                        style="margin-top: 10px;width:20%;padding-right:40px"
+                                        v-show="addTestActivate"
+                                    >
+                                        <div class="nav-api-side-dlg">
+                                            <div class="api-tree"  style="height:550px">
+                                                <el-input
+                                                    placeholder="输入关键字进行过滤"
+                                                    v-model="filterText"
+                                                    size="medium"
+                                                    clearable
+                                                    prefix-icon="el-icon-search"
+                                                >
+                                                </el-input>
+
+                                                <el-tree
+                                                    @node-click="handleSuiteNodeClick"
+                                                    :data="SuitedataTree"
+                                                    node-key="id"
+                                                    :default-expand-all="false"
+                                                    :expand-on-click-node="false"
+                                                    :draggable="false"
+                                                    highlight-current
+                                                    :filter-node-method="filterNode"
+                                                    ref="Suitetree"
+                                                    @node-drag-end="handleDragEnd"
+                                                >
+                                            <span class="custom-tree-node"
+                                                  slot-scope="{ node, data }"
+                                            >
+                                                <span><i class="iconfont" v-html="expand"></i>&nbsp;&nbsp;{{ node.label }}</span>
+                                            </span>
+                                                </el-tree>
+                                            </div>
+                                        </div>
+                                    </el-aside>
+                                    <el-main>
+                                        <suite-show-list
+                                            :checked="checked"
+                                            v-on:suite="handleSuite"
+                                            :node="currentSuiteNode !== '' ? currentSuiteNode.id : '' "
+                                            :project="$route.params.id"
+                                            :testList="testListData.tests"
+                                            :maxindex="testListData.maxindex"
+                                            ref="suiteShowListCase"
+                                            v-if="addstepdlgshow"
+                                            @syncSelectedData="syncSelectedData"
+                                        >
+                                        </suite-show-list>
+
+                                    </el-main>
+
+                                </el-container>
+                            </el-tab-pane>
                         </el-tabs>
 
                         <span slot="footer" class="dialog-footer">
@@ -277,6 +333,7 @@
     import CaseBody from './components/CaseBody'
     import CaseList from './components/CaseList'
     import ApiShowList from './components/ApiShowList'
+    import SuiteShowList from './components/SuiteShowList'
 
     export default {
         watch: {
@@ -289,6 +346,7 @@
             CaseBody,
             CaseList,
             ApiShowList,
+            SuiteShowList
         },
         data() {
             return {
@@ -316,11 +374,13 @@
                 currentNode: '',
                 data: '',
                 currentAPINode: '',
+                currentSuiteNode: '',
                 APIdata:'',
                 filterText: '',
                 expand: '&#xe65f;',
                 dataTree: [],
                 APIdataTree: [],
+                SuitedataTree: [],
                 configOptions: [{
                     value: '测试环境',
                     label: '测试环境'
@@ -438,6 +498,17 @@
                         duration: 1000
                     })
                 })
+
+                this.$api.getTree(this.$route.params.id, {params: {type: 3}}).then(resp => {
+                    this.SuitedataTree = resp['tree'];
+                    //this.SuitetreeId = resp['id'];
+                    //this.SuitemaxId = resp['max'];
+                }).catch(resp => {
+                    this.$message.error({
+                        message: '服务器连接超时，请重试',
+                        duration: 1000
+                    })
+                })
             },
 
             updateTree(mode) {
@@ -500,6 +571,10 @@
                 this.currentAPINode = node;
                 this.APIdata = data;
             },
+            handleSuiteNodeClick(node, data) {
+                this.currentSuiteNode = node;
+                this.APIdata = data;
+            },
 
             filterNode(value, data) {
                 if (!value) return true;
@@ -533,11 +608,19 @@
             },
             saveCase(){
                 this.$refs.CaseList.testData.tests = this.$refs.apiShowListCase.selectedData;
-                this.addstepdlgshow = false
+                this.addstepdlgshow = false;
             },
             handleAPI(resp){
                 this.testCaseFlag = false;
                 this.response = resp;
+            },
+            handleSuite(resp){
+                this.testCaseFlag = false;
+                this.response = resp;
+            },
+            syncSelectedData(selectedData){
+                this.$refs.suiteShowListCase.selectedData = selectedData;
+                this.$refs.apiShowListCase.selectedData = selectedData;
             }
         },
         name: "AutoTest",

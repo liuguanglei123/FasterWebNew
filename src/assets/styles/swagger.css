@@ -120,3 +120,12 @@ h4 {
     -webkit-margin-end: 0px;
     font-weight: bold;
 }
+
+.block_suite {
+    border: 1px solid #FF7000;
+    background-color: rgba(255, 112, 0, .1)
+}
+
+.block_method_suite {
+    background-color: #FF7000;
+}

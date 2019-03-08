@@ -8,6 +8,7 @@
                     v-model="name"
                     clearable
                     :disabled = "true"
+                    onkeyup="value=value.replace(/[\a-\z\A-\Z\_]/g,'')"
                 >
                     <template slot="prepend">接口信息录入</template>
 

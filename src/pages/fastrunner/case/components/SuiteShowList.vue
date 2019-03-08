@@ -1,11 +1,11 @@
 <template>
     <el-container>
-        <el-main style="padding: 0; margin-left: 10px;">
+        <el-main style="padding: 0; margin-left: 10px;width:43%">
 
             <div style="position: static;">
                 <el-table
                     ref="multipleTable2"
-                    :data="apiData.results"
+                    :data="SuiteData.tests"
                     :show-header="false"
                     :cell-style="{paddingTop: '4px', paddingBottom: '4px'}"
                     @cell-mouse-enter="cellMouseEnter"
@@ -14,11 +14,11 @@
                     @selection-change="handleleftSelectionChange"
                     v-loading="loading"
                 >
-                    <el-table-column
+                    <!--<el-table-column
                         type="selection"
                         width="40"
                     >
-                    </el-table-column>
+                    </el-table-column>-->
 
                     <el-table-column
                         min-width=100
@@ -76,8 +76,8 @@
 
         </el-main>
 
-        <div style="width:10%;float:left;">
-            <button style="width:100%;margin-top:200px;margin-botton:10px" @click="addIntoSuite">向右</button>
+        <div style="width:10%;float:left; border: 1px solid #d7dae2; border-radius: 10px">
+            <button style="width:100%;margin-top:50%;" @click="addIntoSuite">向右</button>
             <button style="width:100%;" @click="rmfromSuite">向左</button>
         </div>
 
@@ -106,6 +106,7 @@
                                 <span class="block-method block_method_suite block_method_color">SUITE</span>
                                 <span class="block-method block_url">{{scope.row.name}}</span>
                             </div>
+
 
                             <div class="block block_post" v-if="scope.row.method.toUpperCase() === 'POST' ">
                                 <span class="block-method block_method_post block_method_color">POST</span>
@@ -171,7 +172,7 @@
                 return JSON.parse(JSON.stringify(this.testList))
             }*/
         },
-        name: "ApiShowList",
+        name: "SuiteShowList",
         props: {
             node: {
                 require: true
@@ -199,9 +200,12 @@
                 selectAPI: [],
                 currentRow: '',
                 currentPage: 1,
-                apiData: {
-                    count: 0,
-                    results: []
+                SuiteData: {
+                    name: '',
+                    id:'',
+                    maxindex:0,
+                    tests: [],
+                    empty:true,
                 },
                 selectedData:this.testList,
                 unrmAPI:[],
@@ -215,7 +219,7 @@
                 this.$refs.tree.filter(val);
             },
             node() {
-                this.getAPIList();
+                this.getSuiteList();
             },
             checked() {
                 if (this.checked) {
@@ -223,7 +227,7 @@
                 } else {
                     this.toggleClear();
                 }
-            },
+            }
         },
 
         methods: {
@@ -267,8 +271,8 @@
                     })
                 }
             },
-            getTree() {
-                this.$api.getTree(this.$route.params.id, {params: {type: 1}}).then(resp => {
+/*            getTree() {
+                this.$api.getTree(this.$route.params.id, {params: {type: 3}}).then(resp => {
                     this.dataTree = resp.tree;
                     this.dialogTreeVisible = true;
                 }).catch(resp => {
@@ -277,7 +281,7 @@
                         duration: 1000
                     })
                 })
-            },
+            },*/
 
             handleleftSelectionChange(val) {
                 this.multipleleftSelection = val;
@@ -295,14 +299,14 @@
                 this.$refs.multipleTable.clearSelection();
             },
             // 查询api列表
-            getAPIList() {
-                this.$api.apiList({
+            getSuiteList() {
+                this.$api.suiteList({
                     params: {
                         node: this.node,
                         project: this.project
                     }
                 }).then(res => {
-                    this.apiData = res;
+                    this.SuiteData = res;
                 }).catch(resp => {
                     this.$message.error({
                         message: '服务器连接超时，请重试',
@@ -320,7 +324,7 @@
                         project: this.project
                     }
                 }).then(res => {
-                    this.apiData = res;
+                    this.SuiteData = res;
                 }).catch(resp => {
                     this.$message.error({
                         message: '服务器连接超时，请重试',
@@ -338,7 +342,7 @@
                 }).then(() => {
                     this.$api.delAPI(index).then(resp => {
                         if (resp.success) {
-                            this.getAPIList();
+                            this.getSuiteList();
                         } else {
                             this.$message.error(resp.msg);
                         }
@@ -390,7 +394,17 @@
                 this.currentRow = '';
             },
             addIntoSuite() {
-                var data;
+                this.newindex = this.newindex +1;
+                var tmpdata = {
+                    'method':'suite',
+                    'name': this.SuiteData.name,
+                    'index': this.newindex,
+                    'flag': 'add'
+                }
+                this.selectedData.push(tmpdata);
+                this.$emit('syncSelectedData',this.selectedData);
+
+                /*var data;
                 for ( data in this.multipleleftSelection ){
                     this.newindex = this.newindex +1;
                     var tmpdata = {
@@ -402,7 +416,7 @@
                         'flag': 'add'
                     }
                     this.selectedData.push(tmpdata);
-                }
+                }*/
             },
             rmfromSuite() {
                 var data;

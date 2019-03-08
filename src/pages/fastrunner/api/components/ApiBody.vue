@@ -7,6 +7,7 @@
                     placeholder="请输入接口名称"
                     v-model="name"
                     clearable
+                    @keyup.native="inputlimit"
                 >
                     <template slot="prepend">接口信息录入</template>
 
@@ -283,6 +284,12 @@
                         this.summary = resp;
                         this.dialogTableVisible = true;
                         this.loading = false;
+                    }).catch(resp => {
+                        this.loading = false;
+                        this.$message.error({
+                            message: '服务器连接超时，请重试',
+                            duration: 1000
+                        })
                     })
                 }
             },
@@ -314,6 +321,9 @@
                         }
                     })
                 }
+            },
+            inputlimit(){
+                this.name=this.name.replace(/[^\a-\z\A-\Z\_]/g,'');
             }
         },
 
