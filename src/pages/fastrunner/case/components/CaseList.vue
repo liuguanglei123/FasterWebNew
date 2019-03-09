@@ -130,6 +130,11 @@
                             align="center"
                         >
                             <template slot-scope="scope">
+                                <div class="block block_suite" v-if="scope.row.method.toUpperCase() === 'SUITE' ">
+                                    <span class="block-method block_method_suite block_method_color">SUITE</span>
+                                    <span class="block-method block_url">{{scope.row.name}}</span>
+                                </div>
+
                                 <div class="block block_post" v-if="scope.row.method.toUpperCase() === 'POST' ">
                                     <span class="block-method block_method_post block_method_color">POST</span>
                                     <span class="block-method block_url">{{scope.row.url}}</span>

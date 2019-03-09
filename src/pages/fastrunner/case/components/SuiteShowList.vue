@@ -207,7 +207,7 @@
                     tests: [],
                     empty:true,
                 },
-                selectedData:this.testList,
+                selectedData:JSON.parse(JSON.stringify(this.testList)),
                 unrmAPI:[],
                 multipleleftSelection:[],
                 multiplerightSelection:[],
@@ -394,12 +394,19 @@
                 this.currentRow = '';
             },
             addIntoSuite() {
+                if(this.SuiteData.name === ''){
+                    this.$message.error("请选择一个测试集！")
+                    return;
+                }
                 this.newindex = this.newindex +1;
                 var tmpdata = {
                     'method':'suite',
                     'name': this.SuiteData.name,
                     'index': this.newindex,
-                    'flag': 'add'
+                    'flag': 'add',
+                    'node':this.node,
+                    'project':this.project,
+                    'id':this.SuiteData.id,
                 }
                 this.selectedData.push(tmpdata);
                 this.$emit('syncSelectedData',this.selectedData);

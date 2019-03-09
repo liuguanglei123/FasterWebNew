@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-main style="padding: 0; margin-left: 10px;">
+        <el-main style="padding: 0; margin-left: 10px;width:43%">
 
             <div style="position: static;">
                 <el-table
@@ -76,7 +76,7 @@
 
         </el-main>
 
-        <div style="width:10%;float:left;">
+        <div style="width:10%;float:left; border: 1px solid #d7dae2; border-radius: 10px">
             <button style="width:100%;margin-top:200px;margin-botton:10px" @click="addIntoSuite">向右</button>
             <button style="width:100%;" @click="rmfromSuite">向左</button>
         </div>
@@ -203,7 +203,7 @@
                     count: 0,
                     results: []
                 },
-                selectedData:this.testList,
+                selectedData:JSON.parse(JSON.stringify(this.testList)),
                 unrmAPI:[],
                 multipleleftSelection:[],
                 multiplerightSelection:[],
