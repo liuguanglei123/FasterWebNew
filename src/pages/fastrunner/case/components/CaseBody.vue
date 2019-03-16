@@ -7,7 +7,6 @@
                     placeholder="请输入接口名称"
                     v-model="name"
                     clearable
-                    :disabled = "true"
                 >
                     <template slot="prepend">接口信息录入</template>
 
@@ -96,7 +95,7 @@
                     </headers>
                 </el-collapse-item>
 
-                <el-collapse-item title="Request 暂时不支持覆盖填写" name="second">
+                <el-collapse-item title="Request 暂时不支持覆盖json" name="second">
                     <request
                         :save="save"
                         v-on:request="handleRequest"
@@ -197,7 +196,7 @@
                 this.header = header;
             },
             handleRequest(request) {
-                //this.request = request;
+                this.request = request;
             },
             handleValidate(validate) {
                 this.validate = validate;

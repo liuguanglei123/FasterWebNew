@@ -25,7 +25,7 @@
                     label="请求Key"
                     width="250">
                     <template slot-scope="scope">
-                        <el-input clearable v-model="scope.row.key" placeholder="Key" :disabled=true></el-input>
+                        <el-input clearable v-model="scope.row.key" placeholder="Key" :disabled="scope.row.disabled"></el-input>
                     </template>
                 </el-table-column>
 
@@ -35,7 +35,7 @@
                     width="120">
                     <template slot-scope="scope">
 
-                        <el-select v-model="scope.row.type" :disabled=true>
+                        <el-select v-model="scope.row.type" :disabled="scope.row.disabled">
                             <el-option
                                 v-for="item in dataTypeOptions"
                                 :key="item.value"
@@ -57,7 +57,7 @@
                             clearable
                             v-model="scope.row.value"
                             placeholder="Value"
-                            :disabled=true
+                            :disabled="scope.row.disabled"
                         ></el-input>
 
                         <el-row v-show="scope.row.type === 5">
@@ -97,7 +97,7 @@
                     label="描述"
                     width="200">
                     <template slot-scope="scope">
-                        <el-input clearable v-model="scope.row.desc" placeholder="参数简要描述" :disabled=true></el-input>
+                        <el-input clearable v-model="scope.row.desc" placeholder="参数简要描述" :disabled="scope.row.disabled"></el-input>
                     </template>
                 </el-table-column>
 
@@ -149,7 +149,7 @@
         props: {
             save: Boolean,
             request: {
-                require: false
+                require: false,
             },
             srcrequest: {
                 require: false
@@ -165,9 +165,9 @@
             save: function () {
                 this.$emit('request', {
                     form: this.parseForm(),
-                    json: this.parseJson(),
+                    //json: this.parseJson(),
                     params: this.parseParams(),
-                    files: this.parseFile()
+                    //files: this.parseFile()
                 }, {
                     data: this.formData,
                     params: this.paramsData,
@@ -176,9 +176,42 @@
             },
             srcrequest: function () {
                 if (this.srcrequest.length !== 0) {
-                    this.formData = this.srcrequest.data;
+                    this.formData =[]
+                    for(var i=0;i<this.srcrequest.data.length;i++){
+                        this.srcrequest.data[i]['disabled']=true;
+                        this.formData.push(this.srcrequest.data[i])
+                    }
+                    for(var i=0;i<this.request.data.length;i++){
+                        this.request.data[i]['disabled'] = false
+                        this.formData.push(this.request.data[i])
+                    }
+                    if(this.request.data.length === 0){
+                        this.formData.push({
+                            key: '',
+                            value: '',
+                            type: 1,
+                            disabled: false
+                        })
+                    }
                     this.jsonData = this.srcrequest.json_data;
-                    this.paramsData = this.srcrequest.params;
+
+                    this.paramsData = []
+                    for(var i=0;i<this.srcrequest.params.length;i++){
+                        this.srcrequest.params[i]['disabled']=true;
+                        this.paramsData.push(this.srcrequest.params[i])
+                    }
+                    for(var i=0;i<this.request.params.length;i++){
+                        this.request.params[i]['disabled'] = false
+                        this.paramsData.push(this.request.params[i])
+                    }
+                    if(this.request.params.length === 0){
+                        this.paramsData.push({
+                            key: '',
+                            value: '',
+                            type: 1,
+                            disabled: false
+                        })
+                    }
                 }
             }
         },
@@ -271,7 +304,7 @@
                 };
                 for (let content of this.formData) {
                     // file 不处理
-                    if (content['key'] !== '' && content['type'] !== 5) {
+                    if ((content['key'] !== '' && content['type'] !== 5) && content['disabled'] === false) {
                         const value = this.parseType(content['type'], content['value']);
 
                         if (value === 'exception') {
@@ -291,7 +324,7 @@
                     desc: {}
                 };
                 for (let content of this.paramsData) {
-                    if (content['key'] !== '') {
+                    if (content['key'] !== '' && content['disabled'] === false) {
                         params.params[content['key']] = content['value'];
                         params.desc[content['key']] = content['desc'];
                     }
@@ -368,12 +401,7 @@
                 currentIndex: 0,
                 currentRow: '',
                 jsonData: '',
-                formData: [{
-                    key: '',
-                    value: '',
-                    type: 1,
-                    desc: ''
-                }],
+                formData: [],
                 paramsData: [{
                     key: '',
                     value: '',
