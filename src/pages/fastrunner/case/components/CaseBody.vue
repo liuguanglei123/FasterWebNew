@@ -72,7 +72,7 @@
 
         </div>
 
-        <div class="request" style="height:600px">
+        <div class="request" style="height:520px">
 
             <el-dialog
                 v-if="dialogTableVisible"
@@ -83,7 +83,7 @@
             </el-dialog>
 
             <el-collapse
-                style="margin-left: 20px;"
+                style="margin-left: 20px;height:auto"
                 v-model="activeTag"
             >
                 <el-collapse-item title="Header" name="first">
@@ -95,7 +95,7 @@
                     </headers>
                 </el-collapse-item>
 
-                <el-collapse-item title="Request 暂时不支持覆盖json" name="second">
+                <el-collapse-item title="Request 原生httprunner不支持覆盖request" name="second">
                     <request
                         :save="save"
                         v-on:request="handleRequest"

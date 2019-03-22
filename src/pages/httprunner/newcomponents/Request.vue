@@ -181,18 +181,18 @@
                         this.srcrequest.data[i]['disabled']=true;
                         this.formData.push(this.srcrequest.data[i])
                     }
-                    for(var i=0;i<this.request.data.length;i++){
-                        this.request.data[i]['disabled'] = false
-                        this.formData.push(this.request.data[i])
-                    }
-                    if(this.request.data.length === 0){
-                        this.formData.push({
-                            key: '',
-                            value: '',
-                            type: 1,
-                            disabled: false
-                        })
-                    }
+                    // for(var i=0;i<this.request.data.length;i++){
+                    //     this.request.data[i]['disabled'] = false
+                    //     this.formData.push(this.request.data[i])
+                    // }
+                    // if(this.request.data.length === 0){
+                    //     this.formData.push({
+                    //         key: '',
+                    //         value: '',
+                    //         type: 1,
+                    //         disabled: false
+                    //     })
+                    // }
                     this.jsonData = this.srcrequest.json_data;
 
                     this.paramsData = []
@@ -200,18 +200,18 @@
                         this.srcrequest.params[i]['disabled']=true;
                         this.paramsData.push(this.srcrequest.params[i])
                     }
-                    for(var i=0;i<this.request.params.length;i++){
-                        this.request.params[i]['disabled'] = false
-                        this.paramsData.push(this.request.params[i])
-                    }
-                    if(this.request.params.length === 0){
-                        this.paramsData.push({
-                            key: '',
-                            value: '',
-                            type: 1,
-                            disabled: false
-                        })
-                    }
+                    // for(var i=0;i<this.request.params.length;i++){
+                    //     this.request.params[i]['disabled'] = false
+                    //     this.paramsData.push(this.request.params[i])
+                    // }
+                    // if(this.request.params.length === 0){
+                    //     this.paramsData.push({
+                    //         key: '',
+                    //         value: '',
+                    //         type: 1,
+                    //         disabled: false
+                    //     })
+                    // }
                 }
             }
         },

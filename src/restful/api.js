@@ -4,7 +4,7 @@ import router from '../router'
 import {Message} from 'element-ui';
 
 
-export const baseUrl = "http://127.0.0.1:8000";
+export const baseUrl = "http://192.168.123.2:8000";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = baseUrl;
