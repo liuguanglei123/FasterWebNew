@@ -44,6 +44,11 @@
             </li>
 
             <li class="pull-left">
+                <p class="title-p"><i class="iconfont">&#xe6da;</i> &nbsp;{{projectInfo.suite_count}} 个步骤集</p>
+                <p class="desc-p">步骤集总数</p>
+            </li>
+
+            <li class="pull-left">
                 <p class="title-p"><i class="iconfont">&#xe6da;</i> &nbsp;{{projectInfo.case_count}} 个用例</p>
                 <p class="desc-p">用例集总数</p>
             </li>
@@ -52,14 +57,14 @@
                 <p class="title-p"><i class="iconfont">&#xee32;</i> &nbsp;{{projectInfo.config_count}} 套配置</p>
                 <p class="desc-p">配置总数</p>
             </li>
+        </ul>
 
+        <ul class="project_detail">
             <li class="pull-left">
                 <p class="title-p"><i class="iconfont">&#xe63c;</i> &nbsp;{{projectInfo.variables_count}} 对全局变量</p>
                 <p class="desc-p">全局变量对数</p>
             </li>
-        </ul>
 
-        <ul class="project_detail">
             <li class="pull-left">
                 <p class="title-p"><i class="iconfont">&#xe61e;</i> &nbsp;0 项task</p>
                 <p class="desc-p">定时任务</p>
