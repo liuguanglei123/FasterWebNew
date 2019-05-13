@@ -287,7 +287,7 @@
         data() {
             return {
                 configOptions: [],
-                currentConfig: '请选择',
+                currentConfig: '',
                 back: false,
                 checked: false,
                 del: false,
@@ -339,7 +339,8 @@
                 this.$api.getAllConfig(this.$route.params.id).then(resp => {
                     this.configOptions = resp;
                     this.configOptions.push({
-                        name: '请选择'
+                        name: '请选择',
+                        id:'',
                     })
                 })
             },
