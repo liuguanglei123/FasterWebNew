@@ -108,7 +108,7 @@
                             v-for="item in configOptions"
                             :key="item.id"
                             :label="item.name"
-                            :value="item.name">
+                            :value="item.id">
                         </el-option>
                     </el-select>
 

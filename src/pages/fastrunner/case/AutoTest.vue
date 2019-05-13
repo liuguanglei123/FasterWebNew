@@ -391,7 +391,6 @@
                 checked: false,
                 del: false,
                 back: false,
-                currentConfig: '',
                 testListData: {
                     name: '',
                     maxindex:0,

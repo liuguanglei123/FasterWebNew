@@ -308,6 +308,7 @@
                             message: '不是标准的json数据格式',
                             duration: 2000
                         });
+                        return this.jsonData;
                     }
                 }
                 return json;
