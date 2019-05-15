@@ -436,7 +436,7 @@
                     label: 'params',
                     value: 'params'
                 }],
-                dataType: 'data'
+                dataType: 'json'
             }
         }
     }

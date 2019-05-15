@@ -259,6 +259,7 @@
                     :nodeId="currentNode.id"
                     :project="$route.params.id"
                     :response="response"
+                    :config="currentConfig"
                 >
                 </suite-body>
                 <suite-list
@@ -341,7 +342,6 @@
                 del: false,
                 run: false,
                 back: false,
-                currentConfig: '',
                 testListData: {
                     name: '',
                     maxindex:0,

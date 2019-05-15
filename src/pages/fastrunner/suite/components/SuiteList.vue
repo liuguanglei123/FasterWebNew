@@ -339,7 +339,8 @@
                         "project": this.project,
                         "relation": relation,
                         "async": this.asyncs,
-                        "name": this.reportName
+                        "name": this.reportName,
+                        "config":this.config
                     }).then(resp => {
                         if (resp.hasOwnProperty("status")) {
                             this.$message.info({
@@ -543,7 +544,8 @@
                     "id": row.id,
                     "index":row.index,
                     "relation":relationArray,
-                    "project":this.project
+                    "project":this.project,
+                    "config":this.config
                 }).then(resp => {
                     this.summary = resp;
                     this.dialogTableVisible = true;

@@ -1,6 +1,6 @@
 FROM hub.c.163.com/library/nginx
 
-MAINTAINER dreamyin
+MAINTAINER liuguanglei
 
 RUN rm /etc/nginx/conf.d/default.conf
 

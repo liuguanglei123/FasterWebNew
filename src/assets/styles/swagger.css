@@ -83,6 +83,20 @@
     color: #3b4151;
 }
 
+.block_name {
+    padding-left: 5px;
+    word-break: normal;
+    width: auto;
+    display: block;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    font-family: Open Sans, sans-serif;
+    color: #3b4151;
+}
+
 .block_method_color {
     cursor: pointer;
     color: #fff;
@@ -119,13 +133,4 @@ h4 {
     -webkit-margin-start: 0px;
     -webkit-margin-end: 0px;
     font-weight: bold;
-}
-
-.block_suite {
-    border: 1px solid #FF7000;
-    background-color: rgba(255, 112, 0, .1)
-}
-
-.block_method_suite {
-    background-color: #FF7000;
 }

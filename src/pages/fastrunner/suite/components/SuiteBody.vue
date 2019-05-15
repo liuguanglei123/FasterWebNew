@@ -25,7 +25,7 @@
                     type="primary"
                     @click="reverseStatus"
                     v-loading="loading"
-                    :disabled="true"
+                    :disabled="false"
                 >Send
                 </el-button>
             </div>
@@ -184,6 +184,9 @@
             project: {
                 require: false
             },
+            config:{
+                require:true
+            },
             response: {
                 require: false
             }
@@ -280,7 +283,7 @@
             runAPI() {
                 if (this.validateData()) {
                     this.loading = true;
-                    this.$api.runSingleAPI({
+                    this.$api.runDebugSuiteStep({
                         header: this.header,
                         request: this.request,
                         extract: this.extract,
@@ -291,7 +294,9 @@
                         method: this.method,
                         name: this.name,
                         times: this.times,
-                        project: this.project
+                        project: this.project,
+                        config: this.config,
+                        apiId: this.apiId,
                     }).then(resp => {
                         this.summary = resp;
                         this.dialogTableVisible = true;
@@ -312,12 +317,14 @@
                 this.method = this.response.method;
                 this.url = this.response.url;
                 this.srcindex = this.response.srcindex;
+                this.apiId = this.response.apiId;
                 //this.times = this.response.srcAPI.times;
                 //this.id = this.response.id;
             }
         },
         data() {
             return {
+                apiId:'',
                 loading: false,
                 times: 1,
                 name: '',

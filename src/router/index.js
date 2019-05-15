@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/pages/home/Home'
-import Register from '@/pages/auth/components/Register'
-import Login from '@/pages/auth/components/Login'
+import Register from '@/pages/auth/Register'
+import Login from '@/pages/auth/Login'
 import ProjectList from '@/pages/project/ProjectList'
-import DataBase from '@/pages/project/DataBase'
+// import DataBase from '@/pages/project/DataBase'
 import ProjectDetail from '@/pages/project/ProjectDetail'
 import DebugTalk from '@/pages/httprunner/DebugTalk'
 import RecordApi from '@/pages/fastrunner/api/RecordApi'
@@ -14,8 +14,9 @@ import ReportList from '@/pages/reports/ReportList'
 import RecordConfig from '@/pages/fastrunner/config/RecordConfig'
 import Tasks from '@/pages/task/Tasks'
 import Suite from '@/pages/fastrunner/suite/Suite'
+import HostAddress from '@/pages/variables/HostAddress'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
     mode: 'history',
@@ -108,7 +109,7 @@ export default new Router({
                     path: 'record_config/:id',
                     component: RecordConfig,
                     meta: {
-                        title: '环境管理',
+                        title: '配置管理',
                         requireAuth: true
                     }
 
@@ -144,21 +145,11 @@ export default new Router({
 
                 },
                 {
-                    name: 'Pressure',
-                    path: 'pressure/:id',
-                    component: RecordConfig,
+                    name: 'HostIP',
+                    path: 'host_ip/:id',
+                    component: HostAddress,
                     meta: {
-                        title: '压力测试',
-                        requireAuth: true
-                    }
-
-                },
-                {
-                    name: 'DataBase',
-                    path: 'database',
-                    component: DataBase,
-                    meta: {
-                        title: '数据库管理',
+                        title: 'HOST配置',
                         requireAuth: true
                     }
 
