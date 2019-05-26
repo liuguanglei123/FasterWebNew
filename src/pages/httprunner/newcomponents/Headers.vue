@@ -71,27 +71,27 @@
     export default {
         props: {
             save: Boolean,
-            header: {
+            headers: {
                 require: false
             },
-            srcheader:{
+            srcheaders:{
                 require: false
             }
         },
         computed:{
-            allheader: function() {
+            allheaders: function() {
                 var tmp = [];
-                for(var i=0;i<this.srcheader.length;i++){
-                    this.srcheader[i]['disabled'] = true
-                    tmp.push(this.srcheader[i])
+                for(var i=0;i<this.srcheaders.length;i++){
+                    this.srcheaders[i]['disabled'] = true
+                    tmp.push(this.srcheaders[i])
                 }
-                for(var i=0;i<this.header.length;i++){
-                    this.header[i]['disabled'] = false
-                    tmp.push(this.header[i])
+                for(var i=0;i<this.headers.length;i++){
+                    this.headers[i]['disabled'] = false
+                    tmp.push(this.headers[i])
                 }
-                if(this.header.length === 0){
+                /*if(this.headers.length === 0){
                     tmp.push({key: '', value: '', desc: '',disabled: false })
-                }
+                }*/
                 return tmp;
             }
         },
@@ -117,11 +117,11 @@
             },
 
             handleEdit(index, row) {
-                this.tableData.push({
+                /*this.tableData.push({
                     key: '',
                     value: '',
                     desc: ''
-                });
+                });*/
             },
 
             handleDelete(index, row) {
@@ -130,27 +130,27 @@
 
             // 头部信息格式化
             parseHeader() {
-                let header = {
-                    header: {},
+                let headers = {
+                    headers: {},
                     desc: {}
                 };
                 for (let content of this.tableData) {
                     if (content['key'] !== '' && content['value'] !== '' && content['disabled'] !== true) {
-                        header.header[content['key']] = content['value'];
-                        header.desc[content['key']] = content['desc'];
+                        headers.headers[content['key']] = content['value'];
+                        headers.desc[content['key']] = content['desc'];
                     }
                 }
-                return header;
+                return headers;
             }
         },
         watch: {
             save: function () {
-                this.$emit('header', this.parseHeader(), this.tableData);
+                this.$emit('headers', this.parseHeader(), this.tableData);
             },
 
-            allheader: function () {
-                if (this.allheader.length !== 0) {
-                    this.tableData = this.allheader;
+            allheaders: function () {
+                if (this.allheaders.length !== 0) {
+                    this.tableData = this.allheaders;
                 }
             }
         },
@@ -221,10 +221,10 @@
                 }],
 
                 currentRow: '',
-                tableData: [{key: '', value: '', desc: ''}]
+                tableData: [],
             }
         },
-        name: "Header"
+        name: "Headers"
     }
 </script>
 

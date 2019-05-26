@@ -81,11 +81,11 @@
                             <el-tab-pane label="API" name="API">
                                 <el-container>
                                 <el-aside
-                                    style="margin-top: 10px;width:20%;padding-right:40px"
+                                    style="margin-top: 10px;width:17%;padding-right:40px"
                                     v-show="addTestActivate"
                                 >
                                     <div class="nav-api-side-dlg">
-                                        <div class="api-tree"  style="height:550px">
+                                        <div class="api-tree"  style="height:450px">
                                             <el-input
                                                 placeholder="输入关键字进行过滤"
                                                 v-model="filterText"
@@ -140,7 +140,7 @@
                         <el-button type="primary" @click="saveSuite()">确 定</el-button>
                       </span>
                     </el-dialog>
-                    <el-button
+                    <!--<el-button
                         type="primary"
                         plain
                         size="small"
@@ -156,17 +156,10 @@
                         icon="el-icon-download"
                         :disabled="buttonActivate"
                     >导出用例
-                    </el-button>
-                    <el-button
-                        style="margin-left: 20px"
-                        type="primary"
-                        icon="el-icon-caret-right"
-                        circle
-                        size="mini"
-                        @click="run = !run"
-                    ></el-button>
+                    </el-button>-->
 
-                    <el-button
+
+                    <!--<el-button
                         style="margin-left: 20px"
                         type="danger"
                         icon="el-icon-delete"
@@ -175,18 +168,19 @@
                         :disabled="buttonActivate"
                         @click="del = !del"
                     ></el-button>
+                    TODO:删除操作未验证-->
 
 
-                    <el-tooltip
+                    <!--<el-tooltip
                         class="item"
                         effect="dark"
                         content="环境信息"
                         placement="top-start"
                     >
                         <el-button plain size="small" icon="el-icon-view"></el-button>
-                    </el-tooltip>
+                    </el-tooltip>-->
 
-
+                    &nbsp配置选择:
                     <el-select
                         placeholder="请选择"
                         size="small"
@@ -202,12 +196,13 @@
                     </el-select>
 
                     <el-button
-                        :disabled="addTestActivate"
-                        type="text"
-                        style="position: absolute; right: 30px;"
-                        @click="handleBackList"
-                    >返回列表
-                    </el-button>
+                        style="margin-left: 20px"
+                        type="primary"
+                        icon="el-icon-caret-right"
+                        circle
+                        size="mini"
+                        @click="run = !run"
+                    ></el-button>
 
                 </div>
             </div>
@@ -560,6 +555,13 @@
             saveSuite(){
                 this.$refs.suiteList.testData.tests = this.$refs.apiShowList.selectedData;
                 this.addstepdlgshow = false
+                this.$confirm('是否立即保存刚才的修改？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$refs.suiteList.saveSuite()
+                });
             },
             handleAPI(resp){
                 this.suiteEditFlag = false;

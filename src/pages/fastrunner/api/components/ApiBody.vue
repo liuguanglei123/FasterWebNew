@@ -7,7 +7,6 @@
                     placeholder="请输入接口名称"
                     v-model="name"
                     clearable
-                    @keyup.native="inputlimit"
                 >
                     <template slot="prepend">接口信息录入</template>
 
@@ -84,11 +83,11 @@
                 style="margin-left: 20px;"
                 v-model="activeTag"
             >
-                <el-tab-pane label="Header" name="first">
+                <el-tab-pane label="Headers" name="first">
                     <headers
                         :save="save"
-                        v-on:header="handleHeader"
-                        :header="response ? response.body.header: [] ">
+                        v-on:headers="handleHeaders"
+                        :headers="response ? response.body.headers: [] ">
                     </headers>
                 </el-tab-pane>
 
@@ -191,8 +190,8 @@
                 this.run = true;
             },
 
-            handleHeader(header) {
-                this.header = header;
+            handleHeaders(headers) {
+                this.headers = headers;
             },
             handleRequest(request) {
                 this.request = request;
@@ -244,7 +243,7 @@
             updateAPI() {
                 if (this.validateData()) {
                     this.$api.updateAPI(this.id, {
-                        header: this.header,
+                        headers: this.headers,
                         request: this.request,
                         extract: this.extract,
                         validate: this.validate,
@@ -271,7 +270,7 @@
                 if (this.validateData()) {
                     this.loading = true;
                     this.$api.runSingleAPI({
-                        header: this.header,
+                        headers: this.headers,
                         request: this.request,
                         extract: this.extract,
                         validate: this.validate,
@@ -301,7 +300,7 @@
             addAPI() {
                 if (this.validateData()) {
                     this.$api.addAPI({
-                        header: this.header,
+                        headers: this.headers,
                         request: this.request,
                         extract: this.extract,
                         validate: this.validate,
@@ -326,9 +325,6 @@
                     })
                 }
             },
-            inputlimit(){
-                this.name=this.name.replace(/[^\a-\z\A-\Z\_]/g,'');
-            }
         },
 
         watch: {
@@ -347,7 +343,7 @@
                 name: '',
                 url: '',
                 id: '',
-                header: [],
+                headers: [],
                 request: [],
                 extract: [],
                 validate: [],

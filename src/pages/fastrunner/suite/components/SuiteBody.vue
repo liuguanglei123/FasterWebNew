@@ -88,12 +88,13 @@
                 style="margin-left: 20px;"
                 v-model="activeTag"
             >
-                <el-collapse-item title="Header" name="first">
+                <el-collapse-item title="Headers" name="first">
                     <headers
                         :save="save"
-                        v-on:header="handleHeader"
-                        :srcheader="response ? response.apiStep.header: [] "
-                        :header="response ? response.suiteStep.header: [] ">
+                        v-on:headers="handleHeaders"
+                        :srcheaders="response ? response.apiStep.headers: [] "
+                        :headers=[]>
+                        <!--:headers="response ? response.suiteStep.headers: [] ">-->
                     </headers>
                 </el-collapse-item>
 
@@ -197,8 +198,8 @@
                 this.run = true;
             },
 
-            handleHeader(header) {
-                this.header = header;
+            handleHeaders(headers) {
+                this.headers = headers;
             },
             handleRequest(request) {
                 //this.request = request;
@@ -249,7 +250,7 @@
                         relation:this.nodeId,
                         project:this.project,
                         srcindex:this.srcindex,
-                        header: this.header,
+                        headers: this.headers,
                         request: this.request,
                         extract: this.extract,
                         validate: this.validate,
@@ -284,7 +285,7 @@
                 if (this.validateData()) {
                     this.loading = true;
                     this.$api.runDebugSuiteStep({
-                        header: this.header,
+                        headers: this.headers,
                         request: this.request,
                         extract: this.extract,
                         validate: this.validate,
@@ -305,7 +306,8 @@
                         this.$message.error({
                             message: '服务器连接超时，请重试',
                             duration: 1000
-                        })
+                        });
+                        this.loading = false;
                     })
                 }
             },
@@ -331,7 +333,7 @@
                 url: '',
                 id: '',
                 srcindex: 0,
-                header: [],
+                headers: [],
                 request: [],
                 extract: [],
                 validate: [],

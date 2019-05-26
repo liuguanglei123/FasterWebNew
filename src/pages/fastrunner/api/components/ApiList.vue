@@ -108,7 +108,7 @@
                     </div>
                     <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogTreeVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="runTree">确 定</el-button>
+                    <el-button type="primary" @click="runTree" v-loading.fullscreen.lock="fullscreenLoading">确 定</el-button>
                   </span>
                 </el-dialog>
 
@@ -186,13 +186,16 @@
                         <el-table-column>
                             <template slot-scope="scope">
                                 <el-row v-show="currentRow === scope.row">
-                                    <el-button
-                                        type="info"
-                                        icon="el-icon-edit"
-                                        circle size="mini"
-                                        @click="handleRowClick(scope.row)"
-                                    ></el-button>
+                                    <el-tooltip class="item" effect="dark" content="编辑" placement="top-start">
+                                        <el-button
+                                            type="info"
+                                            icon="el-icon-edit"
+                                            circle size="mini"
+                                            @click="handleRowClick(scope.row)"
+                                        ></el-button>
+                                    </el-tooltip>
 
+                                    <el-tooltip class="item" effect="dark" content="复制" placement="top-start">
                                     <el-button
                                         type="success"
                                         icon="el-icon-document"
@@ -200,13 +203,17 @@
                                         @click="handleCopyAPI(scope.row.id)"
                                     >
                                     </el-button>
+                                    </el-tooltip>
 
+                                    <el-tooltip class="item" effect="dark" content="执行" placement="top-start">
                                     <el-button
                                         type="primary"
                                         icon="el-icon-caret-right"
                                         circle size="mini"
                                         @click="handleRunAPI(scope.row.id)"
                                     ></el-button>
+                                    </el-tooltip>
+                                    <el-tooltip class="item" effect="dark" content="删除" placement="top-start">
                                     <el-button
                                         type="danger"
                                         icon="el-icon-delete"
@@ -214,6 +221,7 @@
                                         @click="handleDelApi(scope.row.id)"
                                     >
                                     </el-button>
+                                    </el-tooltip>
                                 </el-row>
                             </template>
                         </el-table-column>
@@ -253,6 +261,7 @@
         },
         data() {
             return {
+                fullscreenLoading: false,
                 checked:false,
                 search: '',
                 reportName: '',
@@ -352,6 +361,9 @@
                         duration: 1500
                     });
                 } else {
+                    if(this.asyncs === false){
+                        this.fullscreenLoading = true;
+                    }
                     this.$api.runAPITree({
                         "host": this.host,
                         "project": this.project,
@@ -369,7 +381,13 @@
                             this.summary = resp;
                             this.dialogTableVisible = true;
                         }
-
+                        this.fullscreenLoading = false;
+                    }).catch(resp => {
+                        this.$message.error({
+                            message: '服务器内部错误异常，请检查后重试',
+                            duration: 1000
+                        });
+                        this.fullscreenLoading = false;
                     })
                 }
             },

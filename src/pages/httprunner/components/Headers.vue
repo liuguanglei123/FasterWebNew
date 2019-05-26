@@ -69,7 +69,7 @@
     export default {
         props: {
             save: Boolean,
-            header: {
+            headers: {
                 require: false
             }
         },
@@ -108,27 +108,27 @@
 
             // 头部信息格式化
             parseHeader() {
-                let header = {
-                    header: {},
+                let headers = {
+                    headers: {},
                     desc: {}
                 };
                 for (let content of this.tableData) {
                     if (content['key'] !== '' && content['value'] !== '') {
-                        header.header[content['key']] = content['value'];
-                        header.desc[content['key']] = content['desc'];
+                        headers.headers[content['key']] = content['value'];
+                        headers.desc[content['key']] = content['desc'];
                     }
                 }
-                return header;
+                return headers;
             }
         },
         watch: {
             save: function () {
-                this.$emit('header', this.parseHeader(), this.tableData);
+                this.$emit('headers', this.parseHeader(), this.tableData);
             },
 
-            header: function () {
-                if (this.header.length !== 0) {
-                    this.tableData = this.header;
+            headers: function () {
+                if (this.headers.length !== 0) {
+                    this.tableData = this.headers;
                 }
             }
         },
@@ -202,7 +202,7 @@
                 tableData: [{key: '', value: '', desc: ''}]
             }
         },
-        name: "Header"
+        name: "Headers"
     }
 </script>
 

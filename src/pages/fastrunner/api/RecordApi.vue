@@ -71,7 +71,8 @@
                     >添加接口
                     </el-button>
 
-                    &nbsp环境:
+                    &nbsp域名选择（暂未启用）:
+                    <!-- TODO: 原作者在此增加了域名选择一项，还未理解其含义，暂不启用-->
                     <el-select
                         placeholder="请选择"
                         size="small"
@@ -85,7 +86,7 @@
                             :value="item.name">
                         </el-option>
                     </el-select>
-                    &nbsp配置:
+                    &nbsp配置选择:
                     <el-select
                         placeholder="请选择"
                         size="small"
@@ -96,7 +97,7 @@
                             v-for="item in configOptions"
                             :key="item.id"
                             :label="item.name"
-                            :value="item.name">
+                            :value="item.id">
                         </el-option>
                     </el-select>
 
@@ -110,9 +111,7 @@
                         size="mini"
                         @click="run = !run"
                     ></el-button>
-
-
-                    <el-button
+                    <!--<el-button
                         type="danger"
                         icon="el-icon-delete"
                         circle
@@ -120,8 +119,7 @@
                         :disabled="currentNode === ''"
                         @click="del = !del"
                     ></el-button>
-
-
+                    TODO： 放开删除按钮，修改删除操作-->
                 </div>
             </div>
         </el-header>
@@ -130,6 +128,7 @@
             <el-aside style="margin-top: 10px;">
                 <div class="nav-api-side">
                     <div class="api-tree">
+                        <!--TODO：这里的过滤选项未测试-->
                         <el-input
                             placeholder="输入关键字进行过滤"
                             v-model="filterText"
@@ -222,7 +221,7 @@
                             times: 1,
                             url: '',
                             method: 'POST',
-                            header: [{
+                            headers: [{
                                 key: "",
                                 value: "",
                                 desc: ""
@@ -307,6 +306,10 @@
             handleAddSuccess() {
                 this.back = !this.back;
                 this.addAPIFlag = false;
+                this.$message.success({
+                    message: '更新接口成功',
+                    duration: 1000
+                })
             },
 
             handleAPI(response) {
@@ -353,17 +356,22 @@
                     } else {
                         this.$message.error(resp['msg']);
                     }
+                }).catch(resp => {
+                    this.$message.error({
+                        message: '服务器连接超时，请刷新页面重试',
+                        duration: 1000
+                    })
                 })
             },
 
             deleteNode() {
-                this.$confirm('节点删除操作还未完成，删除节点会导致节点下所有接口信息丢失，千万不要继续', '提示', {
+                this.$confirm('删除节点将会隐藏该节点下所有接口信息，是否继续？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
                     if (this.currentNode === '') {
-                        this.$message.info('请选择一个节点');
+                        this.$message.info('请选择一个要删除的节点');
                     } else {
                         if (this.currentNode.children.length !== 0) {
                             this.$message.warning('此节点有子节点，不可删除！');

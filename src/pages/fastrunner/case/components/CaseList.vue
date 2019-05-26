@@ -183,8 +183,9 @@
                         <el-table-column
                             width="140">
                             <template slot-scope="scope">
-                                <el-row v-show="currentRow === scope.row">
+                                <el-row v-show="currentRow === scope.row ">
                                     <el-button
+                                        v-show="scope.row.method.toUpperCase() !== 'SUITE'"
                                         type="info"
                                         icon="el-icon-edit"
                                         circle size="mini"
@@ -548,7 +549,8 @@
                     "id": row.id,
                     "index":row.index,
                     "relation":relationArray,
-                    "project":this.project
+                    "project":this.project,
+                    "config":this.config
                 }).then(resp => {
                     this.summary = resp;
                     this.dialogTableVisible = true;

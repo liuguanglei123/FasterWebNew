@@ -23,7 +23,7 @@
                     type="primary"
                     @click="reverseStatus"
                     v-loading="loading"
-                    :disabled="true"
+                    :disabled="false"
                 >Send
                 </el-button>
             </div>
@@ -86,12 +86,13 @@
                 style="margin-left: 20px;height:auto"
                 v-model="activeTag"
             >
-                <el-collapse-item title="Header" name="first">
+                <el-collapse-item title="Headers" name="first">
                     <headers
                         :save="save"
-                        v-on:header="handleHeader"
-                        :srcheader="response ? response.apiStep.header: [] "
-                        :header="response ? response.suiteStep.header: [] ">
+                        v-on:headers="handleHeaders"
+                        :srcheaders="response ? response.apiStep.headers: [] "
+                        :headers=[]>
+                        <!--:header="response ? response.suiteStep.headers: [] ">-->
                     </headers>
                 </el-collapse-item>
 
@@ -184,7 +185,10 @@
             },
             response: {
                 require: false
-            }
+            },
+            config:{
+                require:true
+            },
         },
         methods: {
             reverseStatus() {
@@ -192,8 +196,8 @@
                 this.run = true;
             },
 
-            handleHeader(header) {
-                this.header = header;
+            handleHeaders(headers) {
+                this.headers = headers;
             },
             handleRequest(request) {
                 this.request = request;
@@ -244,7 +248,7 @@
                         relation:this.nodeId,
                         project:this.project,
                         srcindex:this.srcindex,
-                        header: this.header,
+                        headers: this.headers,
                         request: this.request,
                         extract: this.extract,
                         validate: this.validate,
@@ -278,8 +282,8 @@
             runAPI() {
                 if (this.validateData()) {
                     this.loading = true;
-                    this.$api.runSingleAPI({
-                        header: this.header,
+                    this.$api.runDebugCaseStep({
+                        headers: this.headers,
                         request: this.request,
                         extract: this.extract,
                         validate: this.validate,
@@ -289,7 +293,9 @@
                         method: this.method,
                         name: this.name,
                         times: this.times,
-                        project: this.project
+                        project: this.project,
+                        config: this.config,
+                        apiId: this.apiId,
                     }).then(resp => {
                         this.summary = resp;
                         this.dialogTableVisible = true;
@@ -298,7 +304,8 @@
                         this.$message.error({
                             message: '服务器连接超时，请重试',
                             duration: 1000
-                        })
+                        });
+                        this.loading = false;
                     })
                 }
             },
@@ -310,19 +317,21 @@
                 this.method = this.response.method;
                 this.url = this.response.url;
                 this.srcindex = this.response.srcindex;
+                this.apiId = this.response.apiId;
                 //this.times = this.response.srcAPI.times;
                 //this.id = this.response.id;
             }
         },
         data() {
             return {
+                apiId:'',
                 loading: false,
                 times: 1,
                 name: '',
                 url: '',
                 id: '',
                 srcindex: 0,
-                header: [],
+                headers: [],
                 request: [],
                 extract: [],
                 validate: [],

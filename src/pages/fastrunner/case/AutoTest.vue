@@ -186,7 +186,7 @@
                         <el-button type="primary" @click="saveCase()">确 定</el-button>
                       </span>
                     </el-dialog>
-                    <el-button
+                    <!--<el-button
                         type="primary"
                         plain
                         size="small"
@@ -202,17 +202,10 @@
                         icon="el-icon-download"
                         :disabled="buttonActivate"
                     >导出用例
-                    </el-button>
-                    <el-button
-                        style="margin-left: 20px"
-                        type="primary"
-                        icon="el-icon-caret-right"
-                        circle
-                        size="mini"
-                        @click="run = !run"
-                    ></el-button>
+                    </el-button>-->
 
-                    <el-button
+
+                    <!--<el-button
                         style="margin-left: 20px"
                         type="danger"
                         icon="el-icon-delete"
@@ -221,18 +214,10 @@
                         :disabled="buttonActivate"
                         @click="del = !del"
                     ></el-button>
+                    TODO:need del-->
 
 
-                    <el-tooltip
-                        class="item"
-                        effect="dark"
-                        content="环境信息"
-                        placement="top-start"
-                    >
-                        <el-button plain size="small" icon="el-icon-view"></el-button>
-                    </el-tooltip>
-
-
+                    &nbsp配置选择:
                     <el-select
                         placeholder="请选择"
                         size="small"
@@ -248,12 +233,14 @@
                     </el-select>
 
                     <el-button
-                        :disabled="addTestActivate"
-                        type="text"
-                        style="position: absolute; right: 30px;"
-                        @click="handleBackList"
-                    >返回列表
-                    </el-button>
+                        style="margin-left: 20px"
+                        type="primary"
+                        icon="el-icon-caret-right"
+                        circle
+                        size="mini"
+                        @click="run = !run"
+                    ></el-button>
+
 
                 </div>
             </div>
@@ -305,6 +292,7 @@
                     :nodeId="currentNode.id"
                     :project="$route.params.id"
                     :response="response"
+                    :config="currentConfig"
                 >
                 </case-body>
                 <case-list
