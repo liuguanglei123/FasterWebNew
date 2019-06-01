@@ -34,11 +34,11 @@
                 v-model="activeTag"
                 style="margin-left: 20px"
             >
-                <el-tab-pane label="Header" name="first">
+                <el-tab-pane label="Headers" name="first">
                     <headers
                         :save="save"
-                        v-on:header="handleHeader"
-                        :header="response ? response.body.header: [] ">
+                        v-on:headers="handleHeaders"
+                        :headers="response ? response.body.headers: [] ">
                     </headers>
                 </el-tab-pane>
 
@@ -119,8 +119,8 @@
         },
 
         methods: {
-            handleHeader(header) {
-                this.header = header;
+            handleHeaders(headers) {
+                this.headers = headers;
             },
             handleRequest(request) {
                 this.request = request;
@@ -145,7 +145,7 @@
                 if (this.validateData()) {
                     this.$api.addConfig({
                         parameters: this.parameters,
-                        header: this.header,
+                        headers: this.headers,
                         request: this.request,
                         variables: this.variables,
                         hooks: this.hooks,
@@ -170,7 +170,7 @@
                 if (this.validateData()) {
                     this.$api.updateConfig(this.id, {
                         parameters: this.parameters,
-                        header: this.header,
+                        headers: this.headers,
                         request: this.request,
                         variables: this.variables,
                         hooks: this.hooks,
@@ -208,7 +208,7 @@
                 name: '',
                 baseUrl: '',
                 id: '',
-                header: [],
+                headers: [],
                 request: [],
                 variables: [],
                 hooks: [],

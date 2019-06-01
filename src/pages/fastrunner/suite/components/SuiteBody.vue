@@ -297,7 +297,7 @@
                         times: this.times,
                         project: this.project,
                         config: this.config,
-                        apiId: this.apiId,
+                        apiId: this.apiId
                     }).then(resp => {
                         this.summary = resp;
                         this.dialogTableVisible = true;

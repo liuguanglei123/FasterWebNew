@@ -296,6 +296,7 @@
                         project: this.project,
                         config: this.config,
                         apiId: this.apiId,
+                        srcName:this.srcName
                     }).then(resp => {
                         this.summary = resp;
                         this.dialogTableVisible = true;
@@ -318,6 +319,7 @@
                 this.url = this.response.url;
                 this.srcindex = this.response.srcindex;
                 this.apiId = this.response.apiId;
+                this.srcName = this.response.srcName;
                 //this.times = this.response.srcAPI.times;
                 //this.id = this.response.id;
             }
@@ -325,6 +327,7 @@
         data() {
             return {
                 apiId:'',
+                srcName:'',
                 loading: false,
                 times: 1,
                 name: '',
