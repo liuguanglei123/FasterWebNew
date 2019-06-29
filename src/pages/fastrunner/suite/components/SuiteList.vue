@@ -483,7 +483,7 @@
             },
             saveSuite(){
                 if(this.name === ''){
-                    this.$notify.errror({
+                    this.$notify.error({
                         title:"name错误",
                         message:"name不能为空",
                         duration:1500

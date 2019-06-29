@@ -88,7 +88,7 @@
                 style="margin-left: 20px;"
                 v-model="activeTag"
             >
-                <el-collapse-item title="Headers" name="first">
+                <el-collapse-item title="Headers httprunner原生并不支持header的覆写" name="first">
                     <headers
                         :save="save"
                         v-on:headers="handleHeaders"
@@ -98,7 +98,7 @@
                     </headers>
                 </el-collapse-item>
 
-                <el-collapse-item title="Request 暂时不支持覆盖填写" name="second">
+                <el-collapse-item title="Request httprunner原生并不支持header的覆写" name="second">
                     <request
                         :save="save"
                         v-on:request="handleRequest"
@@ -297,7 +297,8 @@
                         times: this.times,
                         project: this.project,
                         config: this.config,
-                        apiId: this.apiId
+                        apiId: this.apiId,
+                        srcName:this.srcName
                     }).then(resp => {
                         this.summary = resp;
                         this.dialogTableVisible = true;
@@ -320,6 +321,7 @@
                 this.url = this.response.url;
                 this.srcindex = this.response.srcindex;
                 this.apiId = this.response.apiId;
+                this.srcName = this.response.srcName;
                 //this.times = this.response.srcAPI.times;
                 //this.id = this.response.id;
             }
@@ -327,6 +329,7 @@
         data() {
             return {
                 apiId:'',
+                srcName:'',
                 loading: false,
                 times: 1,
                 name: '',
