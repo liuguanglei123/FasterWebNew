@@ -166,6 +166,21 @@
 
             handleDelete(index, row) {
                 this.allvalidate.splice(index, 1);
+                let x=true;
+                var each;
+                for(each in this.allvalidate){
+                    if(each['disabled']===false){
+                        x=false;
+                    }
+                }
+                if(x){
+                    this.allvalidate.push({
+                        expect: '',
+                        actual: '',
+                        comparator: 'equals',
+                        type: 1
+                    });
+                }
             },
 
             // 类型转换

@@ -138,6 +138,21 @@
 
             handleDelete(index, row) {
                 this.allvariables.splice(index, 1);
+                let x=true;
+                var each;
+                for(each in this.allvalidate){
+                    if(each['disabled']===false){
+                        x=false;
+                    }
+                }
+                if(x){
+                    this.allvariables.push({
+                        expect: '',
+                        actual: '',
+                        comparator: 'equals',
+                        type: 1
+                    });
+                }
             },
 
             // 类型转换

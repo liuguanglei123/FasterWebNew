@@ -117,6 +117,21 @@
 
             handleDelete(index, row) {
                 this.allextract.splice(index, 1);
+                let x=true;
+                var each;
+                for(each in this.allvalidate){
+                    if(each['disabled']===false){
+                        x=false;
+                    }
+                }
+                if(x){
+                    this.allextract.push({
+                        expect: '',
+                        actual: '',
+                        comparator: 'equals',
+                        type: 1
+                    });
+                }
             },
             // 抽取格式化
             parseExtract() {
