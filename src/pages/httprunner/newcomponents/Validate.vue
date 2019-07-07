@@ -3,7 +3,7 @@
         :cell-style="{paddingTop: '4px', paddingBottom: '4px'}"
         strpe
         height1="460"
-        :data="tableData"
+        :data="allvalidate"
         style="width: 100%;"
         @cell-mouse-enter="cellMouseEnter"
         @cell-mouse-leave="cellMouseLeave"
@@ -156,7 +156,7 @@
             },
 
             handleEdit(index, row) {
-                this.tableData.push({
+                this.allvalidate.push({
                     expect: '',
                     actual: '',
                     comparator: 'equals',
@@ -165,7 +165,7 @@
             },
 
             handleDelete(index, row) {
-                this.tableData.splice(index, 1);
+                this.allvalidate.splice(index, 1);
             },
 
             // 类型转换
@@ -232,7 +232,7 @@
                 let validate = {
                     validate: []
                 };
-                for (let content of this.tableData) {
+                for (let content of this.allvalidate) {
                     if (content['actual'] !== '' && content['disabled'] !== true) {
                         let obj = {};
                         const expect = this.parseType(content['type'], content['expect']);

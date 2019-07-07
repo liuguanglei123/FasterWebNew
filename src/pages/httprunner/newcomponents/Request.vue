@@ -133,7 +133,9 @@
                     theme="github"
                     width="100%"
                     height="300"
-                    v-show="dataType === 'json' "
+                    aria-disabled="true"
+                    disabled="true"
+                    v-if="dataType === 'json' "
             >
             </editor>
 
@@ -160,6 +162,37 @@
         components: {
             editor: require('vue2-ace-editor'),
         },
+        computed:{
+            formData:function(){
+                if (this.srcrequest.length !== 0) {
+                    let tmpformData = []
+                    for (var i = 0; i < this.srcrequest.data.length; i++) {
+                        this.srcrequest.data[i]['disabled'] = true;
+                        tmpformData.push(this.srcrequest.data[i])
+                    }
+                    return tmpformData;
+                }
+                return [];
+            },
+            jsonData:function(){
+                let tmpjsonData = '';
+                if (this.srcrequest.length !== 0) {
+                    tmpjsonData = this.srcrequest.json_data;
+                }
+                return tmpjsonData;
+            },
+            paramsData:function(){
+                if (this.srcrequest.length !== 0) {
+                    let tmpparamsData = []
+                    for(var i=0;i<this.srcrequest.params.length;i++){
+                        this.srcrequest.params[i]['disabled']=true;
+                        tmpparamsData.push(this.srcrequest.params[i])
+                    }
+                    return tmpparamsData;
+                }
+                return [];
+            },
+        },
 
         watch: {
             save: function () {
@@ -174,46 +207,6 @@
                     json_data: this.jsonData
                 });
             },
-            srcrequest: function () {
-                if (this.srcrequest.length !== 0) {
-                    this.formData =[]
-                    for(var i=0;i<this.srcrequest.data.length;i++){
-                        this.srcrequest.data[i]['disabled']=true;
-                        this.formData.push(this.srcrequest.data[i])
-                    }
-                    // for(var i=0;i<this.request.data.length;i++){
-                    //     this.request.data[i]['disabled'] = false
-                    //     this.formData.push(this.request.data[i])
-                    // }
-                    // if(this.request.data.length === 0){
-                    //     this.formData.push({
-                    //         key: '',
-                    //         value: '',
-                    //         type: 1,
-                    //         disabled: false
-                    //     })
-                    // }
-                    this.jsonData = this.srcrequest.json_data;
-
-                    this.paramsData = []
-                    for(var i=0;i<this.srcrequest.params.length;i++){
-                        this.srcrequest.params[i]['disabled']=true;
-                        this.paramsData.push(this.srcrequest.params[i])
-                    }
-                    // for(var i=0;i<this.request.params.length;i++){
-                    //     this.request.params[i]['disabled'] = false
-                    //     this.paramsData.push(this.request.params[i])
-                    // }
-                    // if(this.request.params.length === 0){
-                    //     this.paramsData.push({
-                    //         key: '',
-                    //         value: '',
-                    //         type: 1,
-                    //         disabled: false
-                    //     })
-                    // }
-                }
-            }
         },
 
         methods: {
@@ -400,15 +393,6 @@
                 fileList: [],
                 currentIndex: 0,
                 currentRow: '',
-                jsonData: '',
-                formData: [],
-                paramsData: [{
-                    key: '',
-                    value: '',
-                    type: '',
-                    desc: ''
-                }],
-
                 dataTypeOptions: [{
                     label: 'String',
                     value: 1

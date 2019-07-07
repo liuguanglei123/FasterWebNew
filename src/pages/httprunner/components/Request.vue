@@ -131,7 +131,7 @@
                     theme="github"
                     width="100%"
                     height="400"
-                    v-show="dataType === 'json' "
+                    v-if="dataType === 'json' "
             >
             </editor>
 

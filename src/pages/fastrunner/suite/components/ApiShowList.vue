@@ -402,7 +402,7 @@
             rmfromSuite() {
                 var data;
                 for(var data in this.multiplerightSelection){
-                    this.selectedData.splice(this.multiplerightSelection[data].index-1,1);
+                    this.selectedData.splice(this.multiplerightSelection[data].index,1);
                     this.resort(this.selectedData)
                 }
                 this.$refs.rightMultipleTable.clearSelection()

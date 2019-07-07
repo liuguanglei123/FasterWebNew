@@ -80,42 +80,42 @@
                         <el-tabs v-model="activetName" type="border-card">
                             <el-tab-pane label="API" name="API">
                                 <el-container>
-                                <el-aside
-                                    style="margin-top: 10px;width:17%;padding-right:40px"
-                                    v-show="addTestActivate"
-                                >
-                                    <div class="nav-api-side-dlg">
-                                        <div class="api-tree"  style="height:450px">
-                                            <el-input
-                                                placeholder="输入关键字进行过滤"
-                                                v-model="filterText"
-                                                size="medium"
-                                                clearable
-                                                prefix-icon="el-icon-search"
-                                            >
-                                            </el-input>
+                                    <el-aside
+                                        style="margin-top:10px;width:17%;padding-right:40px"
+                                        v-show="addTestActivate"
+                                    >
+                                        <div class="nav-api-side-dlg">
+                                            <div class="api-tree" style="height:450px">
+                                                <el-input
+                                                    placeholder="输入关键字进行过滤"
+                                                    v-model="filterText"
+                                                    size="medium"
+                                                    clearable
+                                                    prefix-icon="el-icon-search"
+                                                >
+                                                </el-input>
 
-                                            <el-tree
-                                                @node-click="handleAPINodeClick"
-                                                :data="APIdataTree"
-                                                node-key="id"
-                                                :default-expand-all="false"
-                                                :expand-on-click-node="false"
-                                                :draggable="false"
-                                                highlight-current
-                                                :filter-node-method="filterNode"
-                                                ref="tree1"
-                                                @node-drag-end="handleDragEnd"
-                                            >
+                                                <el-tree
+                                                    @node-click="handleAPINodeClick"
+                                                    :data="APIdataTree"
+                                                    node-key="id"
+                                                    :default-expand-all="false"
+                                                    :expand-on-click-node="false"
+                                                    :draggable="false"
+                                                    highlight-current
+                                                    :filter-node-method="filterNode"
+                                                    ref="tree1"
+                                                    @node-drag-end="handleDragEnd"
+                                                >
                                             <span class="custom-tree-node"
                                                   slot-scope="{ node, data }"
                                             >
                                                 <span><i class="iconfont" v-html="expand"></i>&nbsp;&nbsp;{{ node.label }}</span>
                                             </span>
-                                            </el-tree>
+                                                </el-tree>
+                                            </div>
                                         </div>
-                                    </div>
-                                </el-aside>
+                                    </el-aside>
                                     <el-main>
                                         <api-show-list
                                             :checked="checked"
@@ -250,7 +250,7 @@
 
             <el-main style="padding: 0;">
                 <suite-body
-                    v-show="!suiteEditFlag"
+                    v-if="!suiteEditFlag"
                     :nodeId="currentNode.id"
                     :project="$route.params.id"
                     :response="response"
@@ -258,7 +258,7 @@
                 >
                 </suite-body>
                 <suite-list
-                    v-show="suiteEditFlag"
+                    v-if="suiteEditFlag"
                     :project="$route.params.id"
                     :node="currentNode.id"
                     :del="del"
@@ -279,7 +279,6 @@
 </template>
 
 <script>
-    import EditSuite from './components/EditSuite'
     import SuiteBody from './components/SuiteBody'
     import SuiteList from './components/SuiteList'
     import ApiShowList from './components/ApiShowList'
@@ -291,7 +290,6 @@
             }
         },
         components: {
-            EditSuite,
             SuiteBody,
             SuiteList,
             ApiShowList,
@@ -578,4 +576,14 @@
 
 <style scoped>
 
+</style>
+
+
+<style>
+    .el-tab-pane .el-aside{
+        overflow: visible;
+    }
+    .el-tab-pane .el-main{
+        overflow: visible;
+    }
 </style>

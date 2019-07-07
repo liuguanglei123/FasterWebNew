@@ -4,7 +4,7 @@
         :cell-style="{paddingTop: '4px', paddingBottom: '4px'}"
         strpe
         height1="460"
-        :data="tableData"
+        :data="allvariables"
         style="width: 100%;"
         @cell-mouse-enter="cellMouseEnter"
         @cell-mouse-leave="cellMouseLeave"
@@ -128,7 +128,7 @@
             },
 
             handleEdit(index, row) {
-                this.tableData.push({
+                this.allvariables.push({
                     key: '',
                     value: '',
                     type: 1,
@@ -137,7 +137,7 @@
             },
 
             handleDelete(index, row) {
-                this.tableData.splice(index, 1);
+                this.allvariables.splice(index, 1);
             },
 
             // 类型转换
@@ -206,7 +206,7 @@
                     variables: [],
                     desc: {}
                 };
-                for (let content of this.tableData) {
+                for (let content of this.allvariables) {
                     if (content['key'] !== ''  && content['disabled'] !== true) {
                         let obj = {};
                         const value = this.parseType(content['type'], content['value']);

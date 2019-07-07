@@ -2,7 +2,7 @@
     <el-table
         strpe
         height1="460"
-        :data="tableData"
+        :data="allextract"
         style="width: 100%;"
         @cell-mouse-enter="cellMouseEnter"
         @cell-mouse-leave="cellMouseLeave"
@@ -89,7 +89,7 @@
         },
         watch: {
             save: function () {
-                this.$emit('extract', this.parseExtract(), this.tableData);
+                this.$emit('extract', this.parseExtract());
             },
             allextract: function () {
                 if (this.allextract.length !== 0) {
@@ -108,7 +108,7 @@
             },
 
             handleEdit(index, row) {
-                this.tableData.push({
+                this.allextract.push({
                     key: '',
                     value: '',
                     desc: ''
@@ -116,7 +116,7 @@
             },
 
             handleDelete(index, row) {
-                this.tableData.splice(index, 1);
+                this.allextract.splice(index, 1);
             },
             // 抽取格式化
             parseExtract() {
@@ -124,7 +124,7 @@
                     extract: [],
                     desc: {}
                 };
-                for (let content of this.tableData) {
+                for (let content of this.allextract) {
                     const key = content['key'] ;
                     const value = content['value'];
                     if (key !== '' && value !== '' && content['disabled'] !== true) {

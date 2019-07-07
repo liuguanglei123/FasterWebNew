@@ -541,7 +541,7 @@
                 var relationArray = new Array(1);
                 relationArray[0] = this.node;
                 this.$api.runsuitesinglestep({
-                    "id": row.id,
+                    "apiId": row.id,
                     "index":row.index,
                     "relation":relationArray,
                     "project":this.project,
@@ -583,4 +583,4 @@
 <style scoped>
 
 </style>
-///
+

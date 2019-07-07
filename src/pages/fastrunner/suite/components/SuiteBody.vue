@@ -250,8 +250,6 @@
                         relation:this.nodeId,
                         project:this.project,
                         srcindex:this.srcindex,
-                        headers: this.headers,
-                        request: this.request,
                         extract: this.extract,
                         validate: this.validate,
                         variables: this.variables,
@@ -313,41 +311,30 @@
                 }
             },
         },
-
-        watch: {
-            response: function () {
-                this.name = this.response.name;
-                this.method = this.response.method;
-                this.url = this.response.url;
-                this.srcindex = this.response.srcindex;
-                this.apiId = this.response.apiId;
-                this.srcName = this.response.srcName;
-                //this.times = this.response.srcAPI.times;
-                //this.id = this.response.id;
-            }
+        computed: {
+            name:function(){ return this.response.name;},
+            method:function(){ return this.response.method;},
+            url:function(){ return this.response.url;},
+            srcindex:function(){ return this.response.srcindex;},
+            apiId:function(){ return this.response.apiId;},
+            srcName:function(){ return this.response.srcName;},
         },
         data() {
             return {
-                apiId:'',
-                srcName:'',
                 loading: false,
                 times: 1,
-                name: '',
-                url: '',
                 id: '',
-                srcindex: 0,
                 headers: [],
                 request: [],
                 extract: [],
                 validate: [],
                 variables: [],
                 hooks: [],
-                method: 'POST',
                 dialogTableVisible: false,
                 save: false,
                 run: false,
                 summary: {},
-                activeTag: 'first',
+                activeTag: '',
                 httpOptions: [{
                     label: 'GET',
                 }, {
