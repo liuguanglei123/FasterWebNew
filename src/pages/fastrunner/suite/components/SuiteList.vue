@@ -340,7 +340,8 @@
                         "relation": relation,
                         "async": this.asyncs,
                         "name": this.reportName,
-                        "config":this.config
+                        "config":this.config,
+
                     }).then(resp => {
                         if (resp.hasOwnProperty("status")) {
                             this.$message.info({

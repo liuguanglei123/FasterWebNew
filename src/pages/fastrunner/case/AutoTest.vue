@@ -116,6 +116,7 @@
                                             :maxindex="testListData.maxindex"
                                             ref="apiShowListCase"
                                             v-if="addstepdlgshow"
+                                            @syncSelectedData="syncSelectedData"
                                         >
                                         </api-show-list>
 
@@ -620,4 +621,13 @@
 
 <style scoped>
 
+</style>
+
+<style>
+    .el-tab-pane .el-aside{
+        overflow: visible;
+    }
+    .el-tab-pane .el-main{
+        overflow: visible;
+    }
 </style>

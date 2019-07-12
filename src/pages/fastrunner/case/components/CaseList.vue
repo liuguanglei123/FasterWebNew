@@ -545,19 +545,36 @@
                 this.loading = true;
                 var relationArray = new Array(1);
                 relationArray[0] = this.node;
-                this.$api.runcasesinglestep({
-                    "id": row.id,
-                    "index":row.index,
-                    "relation":relationArray,
-                    "project":this.project,
-                    "config":this.config
-                }).then(resp => {
-                    this.summary = resp;
-                    this.dialogTableVisible = true;
-                    this.loading = false;
-                }).catch(resp => {
-                    this.loading = false;
-                })
+                if(row.method.toUpperCase() !== 'SUITE'){
+                    this.$api.runcasesinglestep({
+                        "apiId": row.id,
+                        "index":row.index,
+                        "relation":relationArray,
+                        "project":this.project,
+                        "config":this.config,
+                    }).then(resp => {
+                        this.summary = resp;
+                        this.dialogTableVisible = true;
+                        this.loading = false;
+                    }).catch(resp => {
+                        this.loading = false;
+                    })
+                }else{
+                    this.$api.runcasesinglestep({
+                        "suiteId": row.id,
+                        "index":row.index,
+                        "relation":relationArray,
+                        "project":this.project,
+                        "config":this.config,
+                    }).then(resp => {
+                        this.summary = resp;
+                        this.dialogTableVisible = true;
+                        this.loading = false;
+                    }).catch(resp => {
+                        this.loading = false;
+                    })
+                }
+                this.loading = false;
             },
             handleDelApi(row) {
                 this.$confirm('此操作会永久删除该步骤，是否继续?', '提示', {

@@ -402,6 +402,7 @@
                         'flag': 'add'
                     }
                     this.selectedData.push(tmpdata);
+                    this.$emit('syncSelectedData',this.selectedData);
                 }
             },
             rmfromSuite() {
