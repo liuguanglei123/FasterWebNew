@@ -431,16 +431,16 @@
                     })
                 })
 
-                // this.$api.getTree(this.$route.params.id, {params: {type: 1}}).then(resp => {
-                //     this.APIdataTree = resp['tree'];
-                //     this.APItreeId = resp['id'];
-                //     this.APImaxId = resp['max'];
-                // }).catch(resp => {
-                //     this.$message.error({
-                //         message: '服务器连接超时，请重试',
-                //         duration: 1000
-                //     })
-                // })
+                this.$api.getTree(this.$route.params.id, {params: {type: 1}}).then(resp => {
+                    this.APIdataTree = resp['tree'];
+                    this.APItreeId = resp['id'];
+                    this.APImaxId = resp['max'];
+                }).catch(resp => {
+                    this.$message.error({
+                        message: '服务器连接超时，请重试',
+                        duration: 1000
+                    })
+                })
             },
 
             updateTree(mode) {
