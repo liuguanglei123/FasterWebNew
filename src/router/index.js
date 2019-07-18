@@ -7,16 +7,24 @@ import ProjectList from '@/pages/project/ProjectList'
 // import DataBase from '@/pages/project/DataBase'
 import ProjectDetail from '@/pages/project/ProjectDetail'
 import DebugTalk from '@/pages/httprunner/DebugTalk'
-import RecordApi from '@/pages/fastrunner/api/RecordApi'
-import AutoTest from '@/pages/fastrunner/case/AutoTest'
-import GlobalEnv from '@/pages/variables/GlobalEnv'
-import ReportList from '@/pages/reports/ReportList'
-import RecordConfig from '@/pages/fastrunner/config/RecordConfig'
-import Tasks from '@/pages/task/Tasks'
-import Suite from '@/pages/fastrunner/suite/Suite'
-import HostAddress from '@/pages/variables/HostAddress'
+// import RecordApi from '@/pages/fastrunner/api/RecordApi'
+// import AutoTest from '@/pages/fastrunner/case/AutoTest'
+// import GlobalEnv from '@/pages/variables/GlobalEnv'
+// import ReportList from '@/pages/reports/ReportList'
+// import RecordConfig from '@/pages/fastrunner/config/RecordConfig'
+// import Tasks from '@/pages/task/Tasks'
+// import Suite from '@/pages/fastrunner/suite/Suite'
+// import HostAddress from '@/pages/variables/HostAddress'
 
 Vue.use(Router);
+const Suite = () => import('@/pages/fastrunner/suite/Suite')
+const HostAddress = () => import('@/pages/variables/HostAddress')
+const Tasks = () => import('@/pages/task/Tasks')
+const RecordConfig = () => import('@/pages/fastrunner/config/RecordConfig')
+const ReportList = () => import('@/pages/reports/ReportList')
+const GlobalEnv = () => import('@/pages/variables/GlobalEnv')
+const AutoTest = () => import('@/pages/fastrunner/case/AutoTest')
+const RecordApi = () => import('@/pages/fastrunner/api/RecordApi')
 
 export default new Router({
     mode: 'history',
