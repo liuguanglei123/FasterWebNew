@@ -8,6 +8,7 @@ export const baseUrl = "http://127.0.0.1:8000";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = baseUrl;
+axios.defaults.timeout = 30000;
 
 axios.interceptors.request.use(function (config) {
     if (config.url.indexOf("/api/fastrunner/project/?cursor=") !== -1 ) {

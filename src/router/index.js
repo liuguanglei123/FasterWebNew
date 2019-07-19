@@ -160,7 +160,6 @@ export default new Router({
                         title: 'HOST配置',
                         requireAuth: true
                     }
-
                 }
             ]
         },

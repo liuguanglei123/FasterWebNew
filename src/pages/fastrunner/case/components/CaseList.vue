@@ -103,7 +103,7 @@
                     </div>
                     <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogTreeVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="runTree">确 定</el-button>
+                    <el-button type="primary" @click="runTree" v-loading.fullscreen.lock="fullscreenLoading">确 定</el-button>
                   </span>
                 </el-dialog>
 
@@ -311,6 +311,7 @@
                 },
                 currentPage: 1,
                 name:'',
+                fullscreenLoading:false,
             }
         },
 
@@ -341,6 +342,7 @@
                         duration: 1500
                     });
                 } else {
+                    this.fullscreenLoading = true;
                     this.$api.runTestCaseTree({
                         "project": this.project,
                         "relation": relation,
@@ -348,6 +350,7 @@
                         "name": this.reportName,
                         "config":this.config
                     }).then(resp => {
+                        this.fullscreenLoading = false;
                         if (resp.hasOwnProperty("status")) {
                             this.$message.info({
                                 message: resp.msg,
@@ -358,6 +361,7 @@
                             this.dialogTableVisible = true;
                         }
                     }).catch(resp => {
+                        this.fullscreenLoading = false;
                         this.$message.error({
                             message: '服务器连接超时，请重试',
                             duration: 1000
