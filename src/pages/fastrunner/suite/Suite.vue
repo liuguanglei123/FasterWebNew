@@ -258,6 +258,8 @@
                 >
                 </suite-body>
                 <suite-list
+                    v-on:updateShouleSave="updateShouleSave"
+                    :shouldSave="shouldSave"
                     v-if="suiteEditFlag"
                     :project="$route.params.id"
                     :node="currentNode.id"
@@ -342,7 +344,8 @@
                     empty:true,
                 },
                 response:'',
-                suiteEditFlag:true
+                suiteEditFlag:true,
+                shouldSave:false,
             }
         },
         computed: {
@@ -414,7 +417,9 @@
                 this.addTestActivate = true;
                 this.back = !this.back;
             },
-
+            updateShouleSave(bool){
+                this.shouldSave = bool;
+            },
             handleTestStep(resp) {
                 this.testStepResp = resp;
                 this.addTestActivate = false;
@@ -551,15 +556,22 @@
                 this.testListData=value;
             },
             saveSuite(){
+                this.shouldSave = true;
                 this.$refs.suiteList.testData.tests = this.$refs.apiShowList.selectedData;
-                this.addstepdlgshow = false
+                this.addstepdlgshow = false;
                 this.$confirm('是否立即保存刚才的修改？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$refs.suiteList.saveSuite()
-                });
+                    this.$refs.suiteList.saveSuite();
+                    this.shouldSave = false;
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消保存，请先保存后再进行其他操作！'
+                        });
+                })
             },
             handleAPI(resp){
                 this.suiteEditFlag = false;

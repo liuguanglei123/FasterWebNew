@@ -4,7 +4,7 @@
 
             <div style="position: static;">
                 <el-table
-                    ref="multipleTable1"
+                    ref="leftMultipleTable"
                     :data="apiData.results"
                     :show-header="false"
                     :cell-style="{paddingTop: '4px', paddingBottom: '4px'}"
@@ -397,15 +397,18 @@
                     }
                     this.selectedData.push(tmpdata);
                 }
-                this.resort(this.selectedData)
+                this.resort(this.selectedData);
+                this.$refs.leftMultipleTable.clearSelection();
+                this.$refs.rightMultipleTable.clearSelection();
             },
             rmfromSuite() {
                 var data;
                 for(var data in this.multiplerightSelection){
-                    this.selectedData.splice(this.multiplerightSelection[data].index,1);
+                    this.selectedData.splice(this.multiplerightSelection[data].index-1,1);
                     this.resort(this.selectedData)
                 }
-                this.$refs.rightMultipleTable.clearSelection()
+                this.$refs.leftMultipleTable.clearSelection();
+                this.$refs.rightMultipleTable.clearSelection();
             },
             resort(value){
                 var data;

@@ -223,6 +223,7 @@
         },
 
         props: {
+            shouldSave: Boolean,
             run: Boolean,
             config: {
                 require: true
@@ -486,6 +487,7 @@
                 this.getTestList()
             },
             saveSuite(){
+                this.$emit("updateShouleSave",false);
                 if(this.name === ''){
                     this.$notify.error({
                         title:"name错误",
@@ -524,6 +526,10 @@
                 }
             },
             handleRowClick(row) {
+                if(this.shouldSave === true){
+                    this.$message('发现上次修改后未保存，请保存！');
+                    return;
+                }
                 this.$api.getSuiteStep({
                     params: {
                         project: this.project,
@@ -559,6 +565,11 @@
                 })
             },
             handleDelApi(row) {
+                if(this.shouldSave === true){
+                    this.$message('发现上次修改后未保存，请保存！');
+                    return;
+                }
+                this.$emit("updateShouleSave",true);
                 this.$confirm('此操作会永久删除该步骤，是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
