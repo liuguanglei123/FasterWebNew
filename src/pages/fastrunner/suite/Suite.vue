@@ -63,7 +63,7 @@
                         type="warning"
                         size="small"
                         icon="el-icon-circle-plus-outline"
-                        @click="addstepdlgshow=true"
+                        @click="addStep"
                         :disabled="buttonActivate"
                     >添加步骤
                     </el-button>
@@ -255,6 +255,7 @@
                     :project="$route.params.id"
                     :response="response"
                     :config="currentConfig"
+                    v-on:addSuccess="handleAddSuccess"
                 >
                 </suite-body>
                 <suite-list
@@ -397,6 +398,21 @@
 
         },
         methods: {
+            addStep(){
+                if(this.shouldSave === true) {
+                    this.$message('发现上次修改后未保存，请保存！');
+                    return;
+                }
+                this.addstepdlgshow=true;
+            },
+            handleAddSuccess() {
+                this.suiteEditFlag = true;
+                this.$message.success({
+                    message: '更新成功',
+                    duration: 1000
+                })
+            },
+
             handleDragEnd(){
                 this.updateTree(false);
             },

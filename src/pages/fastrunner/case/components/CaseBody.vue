@@ -7,6 +7,7 @@
                     placeholder="请输入接口名称"
                     v-model="name"
                     clearable
+                    :disabled = "true"
                 >
                     <template slot="prepend">接口信息录入</template>
 
@@ -86,7 +87,7 @@
                 style="margin-left: 20px;height:auto"
                 v-model="activeTag"
             >
-                <el-collapse-item title="Headers" name="first">
+                <el-collapse-item title="Headers  httprunner原生并不支持header的覆写" name="first">
                     <headers
                         :save="save"
                         v-on:headers="handleHeaders"
@@ -96,7 +97,7 @@
                     </headers>
                 </el-collapse-item>
 
-                <el-collapse-item title="Request 原生httprunner不支持覆盖request" name="second">
+                <el-collapse-item title="Request httprunner原生并不支持request的覆写" name="second">
                     <request
                         :save="save"
                         v-on:request="handleRequest"
@@ -189,6 +190,14 @@
             config:{
                 require:true
             },
+        },
+        computed: {
+            name:function(){ return this.response.name;},
+            method:function(){ return this.response.method;},
+            url:function(){ return this.response.url;},
+            srcindex:function(){ return this.response.srcindex;},
+            apiId:function(){ return this.response.apiId;},
+            srcName:function(){ return this.response.srcName;},
         },
         methods: {
             reverseStatus() {
@@ -312,35 +321,29 @@
             },
         },
 
-        watch: {
-            response: function () {
-                this.name = this.response.name;
-                this.method = this.response.method;
-                this.url = this.response.url;
-                this.srcindex = this.response.srcindex;
-                this.apiId = this.response.apiId;
-                this.srcName = this.response.srcName;
-                //this.times = this.response.srcAPI.times;
-                //this.id = this.response.id;
-            }
-        },
+        // watch: {
+        //     response: function () {
+        //         this.name = this.response.name;
+        //         this.method = this.response.method;
+        //         this.url = this.response.url;
+        //         this.srcindex = this.response.srcindex;
+        //         this.apiId = this.response.apiId;
+        //         this.srcName = this.response.srcName;
+        //         //this.times = this.response.srcAPI.times;
+        //         //this.id = this.response.id;
+        //     }
+        // },
         data() {
             return {
-                apiId:'',
-                srcName:'',
                 loading: false,
                 times: 1,
-                name: '',
-                url: '',
                 id: '',
-                srcindex: 0,
                 headers: [],
                 request: [],
                 extract: [],
                 validate: [],
                 variables: [],
                 hooks: [],
-                method: 'POST',
                 dialogTableVisible: false,
                 save: false,
                 run: false,

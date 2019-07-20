@@ -109,6 +109,7 @@
 
                 <div style="position: fixed; bottom: 0; right:0; left: 500px; top: 160px">
                     <el-table
+                        v-loading="isloading"
                         height="calc(100%)"
                         :data="testData.tests"
                         :show-header="false"
@@ -117,7 +118,7 @@
                         @cell-mouse-leave="cellMouseLeave"
                         style="width: 100%;"
                         @selection-change="handleSelectionChange"
-                        v-loading="loading"
+
                     >
                         <el-table-column
                             type="selection"
@@ -229,6 +230,7 @@
         },
 
         props: {
+            shouldSave: Boolean,
             run: Boolean,
             config: {
                 require: true
@@ -251,6 +253,10 @@
                 this.setTestData();
             },
             run() {
+                if(this.shouldSave === true){
+                    this.$message('发现上次修改后未保存，请保存！');
+                    return;
+                }
                 this.asyncs = false;
                 this.reportName = "";
                 this.getTree();
@@ -297,7 +303,7 @@
                 expand: '&#xe65f;',
                 dialogTreeVisible: false,
                 dataTree: {},
-                loading: false,
+                isloading: false,
                 dialogTableVisible: false,
                 selectTest: [],
                 summary: {},
@@ -372,13 +378,13 @@
             },
 
             handleRunTest(id) {
-                this.loading = true;
+                this.isloading = true;
                 this.$api.runTestByPk(id, {params: {config: this.config, project: this.project}}).then(resp => {
                     this.summary = resp;
                     this.dialogTableVisible = true;
-                    this.loading = false;
+                    this.isloading = false;
                 }).catch(resp => {
-                    this.loading = false;
+                    this.isloading = false;
                     this.$message.error({
                         message: '服务器连接超时，请重试',
                         duration: 1000
@@ -492,8 +498,9 @@
                 this.getTestList()
             },
             saveSuite(){
+                this.$emit("updateShouleSave",false);
                 if(this.name === ''){
-                    this.$notify.errror({
+                    this.$notify.error({
                         title:"name错误",
                         message:"name不能为空",
                         duration:1500
@@ -508,6 +515,10 @@
                         tests: this.testData.tests
                     }).then(resp => {
                         this.refresh();
+                        this.$message({
+                            message: '添加成功',
+                            type: 'success'
+                        });
                     }).catch(resp => {
                         this.$message.error({
                             message: '服务器连接超时，请重试',
@@ -521,6 +532,10 @@
                         tests: this.testData.tests
                     }).then(resp => {
                         this.refresh();
+                        this.$message({
+                            message: '更新成功',
+                            type: 'success'
+                        });
                     }).catch(resp => {
                         this.$message.error({
                             message: '服务器连接超时，请重试',
@@ -530,6 +545,10 @@
                 }
             },
             handleRowClick(row) {
+                if(this.shouldSave === true){
+                    this.$message('发现上次修改后未保存，请保存！');
+                    return;
+                }
                 this.$api.getTestCaseStep({
                     params: {
                         project: this.project,
@@ -546,7 +565,11 @@
                 })
             },
             handleRunAPI(row) {
-                this.loading = true;
+                if(this.shouldSave === true){
+                    this.$message('发现上次修改后未保存，请保存！');
+                    return;
+                }
+                this.isloading=true;
                 var relationArray = new Array(1);
                 relationArray[0] = this.node;
                 if(row.method.toUpperCase() !== 'SUITE'){
@@ -559,9 +582,9 @@
                     }).then(resp => {
                         this.summary = resp;
                         this.dialogTableVisible = true;
-                        this.loading = false;
+                        this.isloading = false;
                     }).catch(resp => {
-                        this.loading = false;
+                        this.isloading = false;
                     })
                 }else{
                     this.$api.runcasesinglestep({
@@ -573,14 +596,18 @@
                     }).then(resp => {
                         this.summary = resp;
                         this.dialogTableVisible = true;
-                        this.loading = false;
+                        this.isloading = false;
                     }).catch(resp => {
-                        this.loading = false;
+                        this.isloading = false;
                     })
                 }
-                this.loading = false;
             },
             handleDelApi(row) {
+                if(this.shouldSave === true){
+                    this.$message('发现上次修改后未保存，请保存！');
+                    return;
+                }
+                this.$emit("updateShouleSave",true);
                 this.$confirm('此操作会永久删除该步骤，是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -601,6 +628,11 @@
                     num = num+1;
                     value[data].index = num;
                 }
+            }
+        },
+        mounted: function () {
+            if (this.node !== undefined) {
+                this.getTestList();
             }
         }
     }

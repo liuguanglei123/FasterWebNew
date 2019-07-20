@@ -404,7 +404,7 @@
             rmfromSuite() {
                 var data;
                 for(var data in this.multiplerightSelection){
-                    this.selectedData.splice(this.multiplerightSelection[data].index-1,1);
+                    this.selectedData.splice(this.multiplerightSelection[data].index,1);
                     this.resort(this.selectedData)
                 }
                 this.$refs.leftMultipleTable.clearSelection();
@@ -414,8 +414,8 @@
                 var data;
                 var num = 0;
                 for(data in value){
-                    num = num+1;
                     value[data].index = num;
+                    num = num+1;
                 }
             }
         }

@@ -107,7 +107,7 @@
                                         </div>
                                     </el-aside>
                                     <el-main>
-                                        <api-show-list
+                                        <case-api-show-list
                                             :checked="checked"
                                             v-on:api="handleAPI"
                                             :node="currentAPINode !== '' ? currentAPINode.id : '' "
@@ -118,7 +118,7 @@
                                             v-if="addstepdlgshow"
                                             @syncSelectedData="syncSelectedData"
                                         >
-                                        </api-show-list>
+                                        </case-api-show-list>
 
                                     </el-main>
 
@@ -289,15 +289,18 @@
 
             <el-main style="padding: 0;">
                 <case-body
-                    v-show="!testCaseFlag"
+                    v-if="!testCaseFlag"
                     :nodeId="currentNode.id"
                     :project="$route.params.id"
                     :response="response"
                     :config="currentConfig"
+                    v-on:addSuccess="handleAddSuccess"
                 >
                 </case-body>
                 <case-list
-                    v-show="testCaseFlag"
+                    v-on:updateShouleSave="updateShouleSave"
+                    v-if="testCaseFlag"
+                    :shouldSave="shouldSave"
                     :project="$route.params.id"
                     :node="currentNode.id"
                     :del="del"
@@ -321,7 +324,7 @@
     import EditCase from './components/EditCase'
     import CaseBody from './components/CaseBody'
     import CaseList from './components/CaseList'
-    import ApiShowList from './components/ApiShowList'
+    import CaseApiShowList from './components/CaseApiShowList'
     import SuiteShowList from './components/SuiteShowList'
 
     export default {
@@ -334,7 +337,7 @@
             EditCase,
             CaseBody,
             CaseList,
-            ApiShowList,
+            CaseApiShowList,
             SuiteShowList
         },
         data() {
@@ -387,7 +390,8 @@
                     empty:true,
                 },
                 response:'',
-                testCaseFlag:true
+                testCaseFlag:true,
+                shouldSave:false,
             }
         },
         computed: {
@@ -439,6 +443,24 @@
 
         },
         methods: {
+            handleAddSuccess() {
+                this.testCaseFlag = !this.testCaseFlag;
+                this.$message.success({
+                    message: '更新成功',
+                    duration: 1000
+                })
+            },
+            addStep(){
+                if(this.shouldSave === true) {
+                    this.$message('发现上次修改后未保存，请保存！');
+                    return;
+                }
+                this.addstepdlgshow=true;
+            },
+            updateShouleSave(bool){
+                this.shouldSave = bool;
+            },
+
             handleDragEnd(){
                 this.updateTree(false);
             },
@@ -595,8 +617,23 @@
                 this.testListData=value;
             },
             saveCase(){
+                this.shouldSave = true;
                 this.$refs.CaseList.testData.tests = this.$refs.apiShowListCase.selectedData;
                 this.addstepdlgshow = false;
+                this.$confirm('是否立即保存刚才的修改？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$refs.CaseList.saveSuite();
+                    this.shouldSave = false;
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消保存，请先保存后再进行其他操作！'
+                    });
+                })
+
             },
             handleAPI(resp){
                 this.testCaseFlag = false;

@@ -4,7 +4,7 @@
 
             <div style="position: static;">
                 <el-table
-                    ref="multipleTable2"
+                    ref="leftMultipleTable"
                     :data="apiData.results"
                     :show-header="false"
                     :cell-style="{paddingTop: '4px', paddingBottom: '4px'}"
@@ -26,45 +26,45 @@
                     >
                         <template slot-scope="scope">
                             <div class="block block_post" v-if="scope.row.method.toUpperCase() === 'POST' ">
-                                <span class="block-method block_method_post block_method_color">POST</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_post block_method_color">POST</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_get" v-if="scope.row.method.toUpperCase() === 'GET' ">
-                                <span class="block-method block_method_get block_method_color">GET</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_get block_method_color">GET</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_put" v-if="scope.row.method.toUpperCase() === 'PUT' ">
-                                <span class="block-method block_method_put block_method_color">PUT</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_put block_method_color">PUT</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_delete" v-if="scope.row.method.toUpperCase() === 'DELETE' ">
-                                <span class="block-method block_method_delete block_method_color">DELETE</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_delete block_method_color">DELETE</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_patch" v-if="scope.row.method.toUpperCase() === 'PATCH' ">
-                                <span class="block-method block_method_patch block_method_color">PATCH</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_patch block_method_color">PATCH</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_head" v-if="scope.row.method.toUpperCase() === 'HEAD' ">
-                                <span class="block-method block_method_head block_method_color">HEAD</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_head block_method_color">HEAD</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_options" v-if="scope.row.method.toUpperCase()=== 'OPTIONS' ">
-                                <span class="block-method block_method_options block_method_color">OPTIONS</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_options block_method_color">OPTIONS</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                         </template>
@@ -76,9 +76,9 @@
 
         </el-main>
 
-        <div style="width:10%;float:left; border: 1px solid #d7dae2; border-radius: 10px">
-            <button style="width:100%;margin-top:200px;margin-botton:10px" @click="addIntoSuite">向右</button>
-            <button style="width:100%;" @click="rmfromSuite">向左</button>
+        <div style="width:8%;">
+            <el-button type="primary" style="width:100%;margin-top:200px;margin-bottom:10px" @click="addIntoSuite" >增加<i class="el-icon-arrow-right"></i></el-button>
+            <el-button type="primary" style="width:100%;margin-left:0px" @click="rmfromSuite">删除<i class="el-icon-arrow-left"></i></el-button>
         </div>
 
         <el-main style="padding: 0; margin-left: 10px;">
@@ -103,50 +103,50 @@
                     >
                         <template slot-scope="scope">
                             <div class="block block_suite" v-if="scope.row.method.toUpperCase() === 'SUITE' ">
-                                <span class="block-method block_method_suite block_method_color">SUITE</span>
-                                <span class="block-method block_url">{{scope.row.name}}</span>
+                                <span class="small_method block_method_suite block_method_color">SUITE</span>
+                                <span class="small_method block_url">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_post" v-if="scope.row.method.toUpperCase() === 'POST' ">
-                                <span class="block-method block_method_post block_method_color">POST</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_post block_method_color">POST</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_get" v-if="scope.row.method.toUpperCase() === 'GET' ">
-                                <span class="block-method block_method_get block_method_color">GET</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_get block_method_color">GET</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_put" v-if="scope.row.method.toUpperCase() === 'PUT' ">
-                                <span class="block-method block_method_put block_method_color">PUT</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_put block_method_color">PUT</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_delete" v-if="scope.row.method.toUpperCase() === 'DELETE' ">
-                                <span class="block-method block_method_delete block_method_color">DELETE</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_delete block_method_color">DELETE</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_patch" v-if="scope.row.method.toUpperCase() === 'PATCH' ">
-                                <span class="block-method block_method_patch block_method_color">PATCH</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_patch block_method_color">PATCH</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_head" v-if="scope.row.method.toUpperCase() === 'HEAD' ">
-                                <span class="block-method block_method_head block_method_color">HEAD</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_head block_method_color">HEAD</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
 
                             <div class="block block_options" v-if="scope.row.method.toUpperCase()=== 'OPTIONS' ">
-                                <span class="block-method block_method_options block_method_color">OPTIONS</span>
-                                <span class="block-method block_url">{{scope.row.url}}</span>
-                                <span class="block-summary-description">{{scope.row.name}}</span>
+                                <span class="small_method block_method_options block_method_color">OPTIONS</span>
+                                <span class="small_method block_url">{{scope.row.url}}</span>
+                                <span class="small-block-summary-description">{{scope.row.name}}</span>
                             </div>
                         </template>
                     </el-table-column>
@@ -167,11 +167,11 @@
             Report
         },
         computed: {
-            /*selectedData:function () {
-                return JSON.parse(JSON.stringify(this.testList))
-            }*/
+            // selectedData:function () {
+            //     return JSON.parse(JSON.stringify(this.testList))
+            // }
         },
-        name: "ApiShowList",
+        name: "CaseApiShowList",
         props: {
             node: {
                 require: true
@@ -402,23 +402,27 @@
                         'flag': 'add'
                     }
                     this.selectedData.push(tmpdata);
-                    this.$emit('syncSelectedData',this.selectedData);
                 }
+                this.$emit('syncSelectedData',this.selectedData);
+                this.$refs.leftMultipleTable.clearSelection();
+                this.$refs.rightMultipleTable.clearSelection();
             },
             rmfromSuite() {
                 var data;
                 for(data in this.multiplerightSelection){
-                    this.selectedData.splice(this.multiplerightSelection[data].index-1,1);
+                    this.selectedData.splice(this.multiplerightSelection[data].index,1);
                     this.resort(this.selectedData)
                 }
-                this.$refs.rightMultipleTable.clearSelection()
+                this.$emit('syncSelectedData',this.selectedData);
+                this.$refs.leftMultipleTable.clearSelection();
+                this.$refs.rightMultipleTable.clearSelection();
             },
             resort(value){
                 var data;
                 var num = 0;
                 for(data in value){
-                    num = num+1;
                     value[data].index = num;
+                    num = num+1;
                 }
             }
         }

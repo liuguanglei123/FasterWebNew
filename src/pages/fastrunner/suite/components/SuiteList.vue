@@ -246,6 +246,10 @@
                 this.setTestData();
             },
             run() {
+                if(this.shouldSave === true){
+                    this.$message('发现上次修改后未保存，请保存！');
+                    return;
+                }
                 this.asyncs = false;
                 this.reportName = "";
                 this.getTree();
@@ -504,6 +508,10 @@
                         tests: this.testData.tests
                     }).then(resp => {
                         this.refresh();
+                        this.$message({
+                            message: '添加成功',
+                            type: 'success'
+                        });
                     }).catch(resp => {
                         this.$message.error({
                             message: '服务器连接超时，请重试',
@@ -517,6 +525,10 @@
                         tests: this.testData.tests
                     }).then(resp => {
                         this.refresh();
+                        this.$message({
+                            message: '更新成功',
+                            type: 'success'
+                        });
                     }).catch(resp => {
                         this.$message.error({
                             message: '服务器连接超时，请重试',
@@ -547,6 +559,10 @@
             },
             // 运行API
             handleRunAPI(row) {
+                if(this.shouldSave === true){
+                    this.$message('发现上次修改后未保存，请保存！');
+                    return;
+                }
                 this.loading = true;
                 var relationArray = new Array(1);
                 relationArray[0] = this.node;
@@ -577,7 +593,7 @@
                 }).then(() => {
                     for(var data in this.testData.tests){
                         if ( this.testData.tests[data].id === row.id && this.testData.tests[data].index === row.index ){
-                            this.testData.tests.splice(row.index-1,1);
+                            this.testData.tests.splice(row.index,1);
                         }
                     }
                     this.resort(this.testData.tests)
@@ -590,6 +606,12 @@
                     num = num+1;
                     value[data].index = num;
                 }
+            }
+        },
+
+        mounted: function () {
+            if (this.node !== undefined) {
+                this.getTestList();
             }
         }
     }

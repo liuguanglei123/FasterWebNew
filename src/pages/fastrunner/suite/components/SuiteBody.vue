@@ -8,8 +8,8 @@
                     v-model="name"
                     clearable
                     :disabled = "true"
-                    onkeyup="value=value.replace(/[\a-\z\A-\Z\_]/g,'')"
                 >
+<!--                    onkeyup="value=value.replace(/[\a-\z\A-\Z\_]/g,'')"-->
                     <template slot="prepend">接口信息录入</template>
 
                     <el-button
@@ -98,7 +98,7 @@
                     </headers>
                 </el-collapse-item>
 
-                <el-collapse-item title="Request httprunner原生并不支持header的覆写" name="second">
+                <el-collapse-item title="Request httprunner原生并不支持request的覆写" name="second">
                     <request
                         :save="save"
                         v-on:request="handleRequest"
